@@ -85,19 +85,6 @@
 </p>
 
 ---
-<!--START_SECTION:whtmst_waka_info-->
-📊 **This Week I Spent My Time On** 
-
-```text
-💬 Programming Languages: 
-No Activity Tracked This Week
-
-🔥 Editors: 
-No Activity Tracked This Week
-```
-
-
-<!--END_SECTION:whtmst_waka_info-->
 
 [//]: # (<details><summary><h5 align="center">🔽 A little bit of different info 🔽</h5></summary><center>)
 [//]: # (</center></details>)
