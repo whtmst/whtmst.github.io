@@ -1,0 +1,41 @@
+
+/**
+ * Footer Section Styles
+ * Contains styles for the footer area
+ */
+
+.footer {
+    background: var(--bg-secondary);
+    padding: var(--spacing-3xl) 0;
+    text-align: center;
+    border-top: var(--border);
+}
+
+.footer p {
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-md);
+}
+
+.footer a {
+    color: var(--azure);
+    transition: var(--transition);
+}
+
+.footer a:hover {
+    color: var(--light-blue);
+    text-decoration: underline;
+}
+
+.profile-stats {
+    margin: var(--spacing-xl) 0;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+    .footer {
+        padding: var(--spacing-2xl) 0;
+    }
+}

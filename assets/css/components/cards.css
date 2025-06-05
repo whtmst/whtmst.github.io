@@ -1,0 +1,114 @@
+
+/**
+ * Card Components
+ * Reusable card styles for different content types
+ */
+
+/* Base Card Styles */
+.card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop-blur);
+    border-radius: var(--border-radius);
+    border: var(--border);
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--azure);
+    background: var(--bg-card-hover);
+}
+
+/* Highlight Cards */
+.highlight-card {
+    padding: var(--spacing-xl);
+}
+
+.highlight-card h3 {
+    color: var(--azure);
+    margin-bottom: var(--spacing-sm);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.highlight-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Tech Category Cards */
+.tech-category {
+    padding: var(--spacing-xl);
+}
+
+.tech-category h3 {
+    color: var(--azure);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.tech-category:hover {
+    transform: translateY(-5px);
+    border-color: var(--azure);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow);
+}
+
+/* Activity Cards */
+.activity-card {
+    padding: var(--spacing-2xl);
+    text-align: center;
+}
+
+.activity-card:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--azure);
+    background: var(--bg-card-hover);
+}
+
+.activity-card h3 {
+    color: var(--azure);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-md);
+}
+
+.activity-card p {
+    color: var(--text-secondary);
+}
+
+/* Contact Cards */
+.contact-card {
+    background: var(--gradient-main);
+    padding: var(--spacing-2xl);
+    border-radius: var(--border-radius);
+    color: var(--charcoal);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.contact-card:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+
+.contact-card h3 {
+    margin-bottom: var(--spacing-md);
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.contact-card a {
+    color: var(--charcoal);
+    font-weight: var(--font-weight-semibold);
+}
+
+.contact-card a:hover {
+    opacity: 0.8;
+}

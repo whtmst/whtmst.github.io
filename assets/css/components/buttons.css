@@ -1,0 +1,134 @@
+
+/**
+ * Button and Link Components
+ * Reusable interactive elements
+ */
+
+/* Base Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: var(--gradient-main);
+    color: var(--charcoal);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop-blur);
+    color: var(--text-primary);
+    border: var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--azure);
+    color: var(--charcoal);
+    border-color: var(--azure);
+    transform: translateY(-2px);
+}
+
+/* Link Buttons */
+.link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop-blur);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    border: var(--border);
+    transition: var(--transition);
+    font-weight: var(--font-weight-semibold);
+}
+
+.link-btn:hover {
+    background: var(--azure);
+    color: var(--charcoal);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--azure);
+}
+
+/* Tech Tags */
+.tech-tag {
+    background: rgba(178, 204, 255, 0.1);
+    border: 1px solid rgba(178, 204, 255, 0.2);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 20px;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    transition: var(--transition);
+    font-weight: var(--font-weight-medium);
+    display: inline-block;
+}
+
+.tech-tag:hover {
+    background: var(--azure);
+    color: white;
+    border-color: var(--azure);
+    transform: translateY(-2px);
+}
+
+/* Icon Buttons */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop-blur);
+    border: var(--border);
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    background: var(--azure);
+    color: var(--charcoal);
+    border-color: var(--azure);
+    transform: scale(1.1);
+}
+
+/* Button Sizes */
+.btn-sm {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+    padding: var(--spacing-lg) var(--spacing-2xl);
+    font-size: var(--font-size-lg);
+}
+
+/* Responsive Buttons */
+@media (max-width: 768px) {
+    .btn, .link-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
+    }
+}

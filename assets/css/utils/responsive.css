@@ -1,0 +1,161 @@
+
+/**
+ * Responsive Utilities
+ * Media queries and responsive helper classes
+ */
+
+/* Breakpoints */
+/*
+  Mobile:    320px - 767px
+  Tablet:    768px - 1023px
+  Desktop:   1024px - 1199px
+  Large:     1200px+
+*/
+
+/* Mobile First Responsive Utilities */
+
+/* Hide/Show at different breakpoints */
+.mobile-only {
+    display: block;
+}
+
+.tablet-up {
+    display: none;
+}
+
+.desktop-up {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .mobile-only {
+        display: none;
+    }
+    
+    .tablet-up {
+        display: block;
+    }
+}
+
+@media (min-width: 1024px) {
+    .tablet-only {
+        display: none;
+    }
+    
+    .desktop-up {
+        display: block;
+    }
+}
+
+/* Responsive Text Alignment */
+.text-center-mobile {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .text-center-mobile {
+        text-align: left;
+    }
+}
+
+/* Responsive Spacing */
+.spacing-mobile-sm {
+    padding: var(--spacing-sm);
+}
+
+.spacing-mobile-md {
+    padding: var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+    .spacing-mobile-sm {
+        padding: var(--spacing-md);
+    }
+    
+    .spacing-mobile-md {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* Responsive Grid Utilities */
+.grid-responsive {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.grid-1-col {
+    grid-template-columns: 1fr;
+}
+
+.grid-2-col {
+    grid-template-columns: 1fr;
+}
+
+.grid-3-col {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .grid-2-col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-3-col {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Responsive Typography */
+.text-responsive {
+    font-size: var(--font-size-base);
+}
+
+@media (min-width: 768px) {
+    .text-responsive {
+        font-size: var(--font-size-lg);
+    }
+}
+
+@media (min-width: 1024px) {
+    .text-responsive {
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* Container Responsive Padding */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+}
+
+/* Print Styles */
+@media print {
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    
+    .hero,
+    .footer {
+        display: none;
+    }
+    
+    .section {
+        padding: 20pt 0;
+        page-break-inside: avoid;
+    }
+    
+    .section-title {
+        page-break-after: avoid;
+    }
+}
