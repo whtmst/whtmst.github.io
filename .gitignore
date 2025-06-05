@@ -19,6 +19,12 @@
 !index.html
 !*.html
 !*.css
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.svg
+!*.ico
 !_config.yml
 !.nojekyll
 
