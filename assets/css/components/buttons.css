@@ -1,4 +1,3 @@
-
 /**
  * Button and Link Components
  * Reusable interactive elements
@@ -30,6 +29,7 @@
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
+    /* No background change, keep gradient */
 }
 
 /* Secondary Button */
@@ -42,7 +42,7 @@
 
 .btn-secondary:hover {
     background: var(--azure);
-    color: var(--charcoal);
+    color: var(--bg-primary); /* Ensure text is readable on azure background */
     border-color: var(--azure);
     transform: translateY(-2px);
 }
@@ -66,9 +66,9 @@
 
 .link-btn:hover {
     background: var(--azure);
-    color: var(--charcoal);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
+    color: var(--bg-primary); /* Ensure text is readable on azure background */
+    /* transform: translateY(-3px); */ /* Removed lift animation */
+    box-shadow: none; /* Remove shadow on hover for a flatter look */
     border-color: var(--azure);
 }
 
@@ -92,26 +92,32 @@
     transform: translateY(-2px);
 }
 
-/* Icon Buttons */
+/* Icon Buttons (Contact & Support) */
 .btn-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    backdrop-filter: var(--backdrop-blur);
-    border: var(--border);
+    width: 56px; /* Increased size for better touch targets */
+    height: 56px; /* Increased size for better touch targets */
+    border-radius: var(--border-radius-large); /* Larger border radius */
+    background: var(--bg-card); /* Use card background */
     color: var(--text-secondary);
+    border: var(--border);
     transition: var(--transition);
+    box-shadow: var(--shadow);
 }
 
 .btn-icon:hover {
-    background: var(--azure);
-    color: var(--charcoal);
-    border-color: var(--azure);
-    transform: scale(1.1);
+    /* transform: translateY(-2px); */ /* Removed lift animation */
+    border-color: var(--azure); /* Add border on hover */
+    box-shadow: var(--shadow-hover);
+    background: var(--bg-card); /* Keep background consistent */
+    color: var(--azure); /* Change icon color on hover */
+}
+
+.btn-icon i { /* Assuming icons are <i> tags, adjust if different */
+    font-size: var(--font-size-xl);
+    transition: var(--transition);
 }
 
 /* Button Sizes */

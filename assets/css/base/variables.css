@@ -1,4 +1,3 @@
-
 /**
  * CSS Custom Properties (Variables)
  * Contains all color scheme, spacing, and design tokens
@@ -10,88 +9,97 @@
     --light-blue: #B2CCFF;
     --charcoal: #16181A;
     
-    /* Dark Theme Colors */
-    --bg-primary: var(--charcoal);
-    --bg-secondary: #0F1114;
-    --bg-tertiary: #1C1E21;
-    --bg-card: rgba(22, 24, 26, 0.8);
-    --bg-card-hover: rgba(77, 136, 255, 0.1);
+    /* Light Theme Colors (SberTips Inspired) */
+    --bg-primary: #ffffff; /* White background */
+    --bg-secondary: #f5f5f5; /* Light gray for section differentiation */
+    --bg-tertiary: #e0e0e0; /* Slightly darker gray */
+    --bg-card: #ffffff; /* White cards */
+    --bg-card-hover: #f0f0f0; /* Light gray on card hover */
     
     /* Text Colors */
-    --text-primary: #ffffff;
-    --text-secondary: var(--light-blue);
-    --text-muted: #8a8e96;
+    --text-primary: #212529; /* Dark gray for primary text */
+    --text-secondary: #495057; /* Medium gray for secondary text */
+    --text-muted: #6c757d; /* Lighter gray for muted text */
     
     /* Accent Colors */
     --accent-primary: var(--azure);
     --accent-secondary: var(--light-blue);
     --accent-tertiary: #6ba3ff;
     
-    /* Gradients */
+    /* Gradients - Adjust if needed, SberTips is mostly flat */
     --gradient-main: linear-gradient(135deg, var(--azure) 0%, var(--light-blue) 100%);
-    --gradient-card: linear-gradient(135deg, var(--bg-card) 0%, rgba(22, 24, 26, 0.6) 100%);
-    --gradient-hero: linear-gradient(135deg, var(--charcoal) 0%, #0F1114 50%, var(--charcoal) 100%);
-    --gradient-text: linear-gradient(135deg, var(--azure) 0%, var(--light-blue) 100%);
+    --gradient-card: none; /* Remove gradient from cards for a flatter look */
+    --gradient-hero: none; /* Remove gradient from hero for a flatter look */
+    --gradient-text: linear-gradient(135deg, var(--azure) 0%, var(--light-blue) 100%); /* Keep for titles if desired */
     
     /* Effects */
-    --shadow: 0 8px 32px rgba(77, 136, 255, 0.15);
-    --shadow-hover: 0 16px 64px rgba(77, 136, 255, 0.25);
-    --border: 1px solid rgba(178, 204, 255, 0.15);
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15); /* Softer hover shadow */
+    --border: 1px solid #dee2e6; /* Standard border color */
     --border-hover: 1px solid var(--azure);
     
     /* Border Radius */
-    --border-radius: 16px;
-    --border-radius-large: 24px;
-    --border-radius-small: 8px;
+    --border-radius: 8px; /* Slightly smaller border radius for a cleaner look */
+    --border-radius-large: 12px;
+    --border-radius-small: 4px;
     
     /* Transitions */
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 0.2s ease-out;
-    --transition-slow: all 0.5s ease-in-out;
-    
-    /* Glass Effect */
-    --glass-bg: rgba(22, 24, 26, 0.7);
-    --glass-border: rgba(178, 204, 255, 0.2);
-    --backdrop-blur: blur(20px);
-    
-    /* Spacing */
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
-    --spacing-2xl: 48px;
-    --spacing-3xl: 64px;
-    
-    /* Typography */
-    --font-primary: 'Unbounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    --font-secondary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    
-    /* Font Sizes */
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.25rem;
-    --font-size-5xl: 3rem;
-    --font-size-6xl: 3.75rem;
-    
+    --transition: all 0.2s ease-in-out; /* Faster transitions */
+    --transition-fast: all 0.15s ease-out;
+    --transition-slow: all 0.4s ease-in-out;
+
+    /* Font Families */
+    --font-primary: 'Unbounded', sans-serif;
+    --font-secondary: 'Noto Color Emoji', sans-serif; /* Ensure Noto Color Emoji is used for emojis */
+
     /* Font Weights */
     --font-weight-light: 300;
-    --font-weight-normal: 400;
+    --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    
-    /* Z-Index */
-    --z-dropdown: 1000;
-    --z-sticky: 1020;
-    --z-fixed: 1030;
-    --z-modal-backdrop: 1040;
-    --z-modal: 1050;
-    --z-popover: 1060;
-    --z-tooltip: 1070;
+
+    /* Font Sizes */
+    --font-size-xs: 0.75rem;  /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-base: 1rem;   /* 16px */
+    --font-size-md: 1.125rem; /* 18px */
+    --font-size-lg: 1.25rem;  /* 20px */
+    --font-size-xl: 1.5rem;   /* 24px */
+    --font-size-2xl: 1.875rem;/* 30px */
+    --font-size-3xl: 2.25rem; /* 36px */
+    --font-size-4xl: 3rem;    /* 48px */
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;    /* 4px */
+    --spacing-sm: 0.5rem;     /* 8px */
+    --spacing-md: 1rem;       /* 16px */
+    --spacing-lg: 1.5rem;     /* 24px */
+    --spacing-xl: 2rem;       /* 32px */
+    --spacing-2xl: 2.5rem;    /* 40px */
+    --spacing-3xl: 3rem;      /* 48px */
+
+    /* Glassmorphism (optional, SberTips is not glassy) */
+    --glass-bg: rgba(255, 255, 255, 0.8); /* Lighter glass effect if kept */
+    --backdrop-blur: blur(5px); /* Reduced blur */
+}
+
+body {
+    font-family: var(--font-primary), var(--font-secondary); /* Ensure emoji font is a fallback */
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
+/* Ensure emojis use their native colors */
+* {
+    text-shadow: none !important; /* Attempt to remove text-shadows that might color emojis */
+    color: inherit; /* Emojis should inherit color unless specifically styled */
+}
+
+/* More specific emoji styling if needed */
+.emoji {
+    font-family: 'Noto Color Emoji', sans-serif;
+    color: initial !important; /* Force native color */
+    -webkit-text-fill-color: initial !important; /* Force native color for WebKit */
+    background: none !important;
 }

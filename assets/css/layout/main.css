@@ -1,4 +1,3 @@
-
 /**
  * Main Content Sections
  * Styles for all main content sections (about, tech, goals, activities)
@@ -30,7 +29,8 @@
 /* About Section */
 .about-content {
     display: grid;
-    grid-template-columns: 250px 1fr;
+    /* grid-template-columns: 250px 1fr; */ /* Adjusted for better responsiveness */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-3xl);
     align-items: center;
 }
@@ -63,7 +63,8 @@
 
 .about-highlights {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: repeat(2, 1fr); */ /* Adjusted for better card flow */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Allow cards to wrap */
     gap: var(--spacing-lg);
     margin-top: var(--spacing-2xl);
 }
@@ -89,13 +90,28 @@
 }
 
 .goal-item {
-    background: var(--glass-bg);
-    backdrop-filter: var(--backdrop-blur);
+    background: var(--bg-card); /* Use card background */
+    /* backdrop-filter: var(--backdrop-blur); */ /* Removed for flatter design */
     padding: var(--spacing-lg);
     border-radius: var(--border-radius);
-    border-left: 4px solid var(--accent-secondary);
+    /* border-left: 4px solid var(--accent-secondary); */ /* Using standard border */
     border: var(--border);
     transition: var(--transition);
+    position: relative; /* For checkbox positioning */
+    padding-left: calc(var(--spacing-lg) + 30px); /* Space for checkbox */
+}
+
+.goal-item::before {
+    content: "";
+    position: absolute;
+    left: var(--spacing-lg);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-muted); /* Checkbox border */
+    border-radius: var(--border-radius-small);
+    background-color: transparent; /* Unchecked state */
 }
 
 .goal-item:hover {
@@ -111,33 +127,26 @@
     margin-bottom: var(--spacing-sm);
 }
 
-/* Activities */
-.activities {
+/* Activities Section */
+.activities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--spacing-2xl);
-}
-
-.activity-icon {
-    font-size: 3rem;
-    margin-bottom: var(--spacing-lg);
-    filter: drop-shadow(0 4px 8px rgba(77, 136, 255, 0.3));
-}
-
-/* Links */
-.links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-2xl);
-}
-
-/* Contact */
-.contact-methods {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-xl);
-    text-align: center;
+}
+
+/* Social & Communication Section */
+.social-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+}
+
+/* Contact & Support Section */
+.contact-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
 }
 
 /* Responsive Main Content */
