@@ -1,26 +1,628 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wht Mst - Mikhail Palagin</title>
+    <meta name="description" content="Mikhail Palagin (Wht Mst) - Explorer of AI technologies, music producer, and aspiring developer">
+    <meta name="keywords" content="Mikhail Palagin, Wht Mst, AI, music, programming, development">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #808080;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #ff6b6b;
+            --accent-tertiary: #4ecdc4;
+            --accent-quaternary: #45b7d1;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            padding: 100px 0 80px;
+            background: var(--gradient-1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: var(--gradient-3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .highlight-card {
+            background: var(--bg-tertiary);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-primary);
+        }
+
+        .highlight-card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .tech-category {
+            background: var(--bg-tertiary);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .tech-category:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-tertiary);
+        }
+
+        .tech-category h3 {
+            color: var(--accent-tertiary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .tech-tag:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Goals */
+        .goals-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .goal-item {
+            background: var(--bg-tertiary);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-secondary);
+            transition: var(--transition);
+        }
+
+        .goal-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        /* Activities */
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .activity-card {
+            background: var(--bg-tertiary);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .activity-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow);
+        }
+
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        /* Links */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .link-btn:hover {
+            background: var(--accent-quaternary);
+            color: var(--bg-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Contact */
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: var(--gradient-3);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            color: var(--bg-primary);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            transform: scale(1.05);
+        }
+
+        .contact-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .contact-card a {
+            color: var(--bg-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-primary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-stats {
+            margin: 30px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight-card:nth-child(1) { animation-delay: 0.1s; }
+        .highlight-card:nth-child(2) { animation-delay: 0.2s; }
+        .highlight-card:nth-child(3) { animation-delay: 0.3s; }
+        .highlight-card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
 </head>
 <body>
-    <h1>Wht Mst - Mikhail Palagin</h1>
-    <p>GitHub Pages is working!</p>
-    
-    <h2>About</h2>
-    <p>Full-stack developer and project manager from Russia.</p>
-    
-    <h2>Skills</h2>
-    <ul>
-        <li>Programming Languages: Python, JavaScript, TypeScript, Rust, C#, Java</li>
-        <li>Frontend: React, Next.js, Vue.js, Angular</li>
-        <li>Backend: Node.js, Django, FastAPI, Express.js</li>
-        <li>Databases: PostgreSQL, MongoDB, Redis</li>
-    </ul>
-    
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:misha@whtmst.com">misha@whtmst.com</a></p>
-    <p>Telegram: <a href="https://t.me/whtmst">@whtmst</a></p>
-    <p>GitHub: <a href="https://github.com/whtmst">@whtmst</a></p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1>👋 Hello, I'm Mikhail Palagin</h1>
+                <p class="subtitle"><em>Also known as Wht Mst (White Mist)</em> 😶‍🌫️</p>
+                <div class="status-badge">🔍 Exploring · 🤖 Learning · 💡 Creating</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">🧑‍💻 About Me</h2>
+            <div class="about-content fade-in">
+                <div class="about-text">
+                    <p><strong>Currently:</strong> Learning life and exploring AI technologies</p>
+                    <p><strong>Status:</strong> Open to opportunities</p>
+                    <p><strong>Pronouns:</strong> he/him/his</p>
+                    <br>
+                    <p>I love exploring new technologies, watching documentaries, and occasionally playing Overwatch 2. Always curious about how things work and passionate about continuous learning.</p>
+                </div>
+                <div class="about-highlights">
+                    <div class="highlight-card fade-in">
+                        <h3>🤖 AI Explorer</h3>
+                        <p>Currently exploring AI technologies and their practical applications</p>
+                    </div>
+                    <div class="highlight-card fade-in">
+                        <h3>🎵 Music Producer</h3>
+                        <p>Creating and streaming music under the Wht Mst alias</p>
+                    </div>
+                    <div class="highlight-card fade-in">
+                        <h3>🎮 Content Creator</h3>
+                        <p>Streaming games and creating content on various platforms</p>
+                    </div>
+                    <div class="highlight-card fade-in">
+                        <h3>📚 Lifelong Learner</h3>
+                        <p>Always curious about new technologies and skills</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">⚡ Tech Stack</h2>
+            <div class="tech-grid fade-in">
+                <div class="tech-category">
+                    <h3>🔥 Daily Essentials</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Lenovo Legion</span>
+                        <span class="tech-tag">Windows 11</span>
+                        <span class="tech-tag">Google</span>
+                        <span class="tech-tag">Brain</span>
+                        <span class="tech-tag">Logic</span>
+                        <span class="tech-tag">AI Tools</span>
+                        <span class="tech-tag">VS Code</span>
+                        <span class="tech-tag">Git</span>
+                        <span class="tech-tag">GitHub</span>
+                        <span class="tech-tag">Capacities</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>💼 Regular Workflow</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Google Chrome</span>
+                        <span class="tech-tag">Terminal</span>
+                        <span class="tech-tag">PowerShell</span>
+                        <span class="tech-tag">StackOverflow</span>
+                        <span class="tech-tag">YouTube</span>
+                        <span class="tech-tag">JSON</span>
+                        <span class="tech-tag">Markdown</span>
+                        <span class="tech-tag">.env</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>🎨 Occasional Projects</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Figma</span>
+                        <span class="tech-tag">Photoshop</span>
+                        <span class="tech-tag">Filmora</span>
+                        <span class="tech-tag">OBS Studio</span>
+                        <span class="tech-tag">GitLab</span>
+                        <span class="tech-tag">WSL</span>
+                        <span class="tech-tag">pgAdmin</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Notepad++</span>
+                        <span class="tech-tag">Linux</span>
+                        <span class="tech-tag">YAML</span>
+                        <span class="tech-tag">Habr</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>📚 Currently Learning</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">AI Technologies</span>
+                        <span class="tech-tag">Life Skills</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">🎯 Goals</h2>
+            <div class="goals-list fade-in">
+                <div class="goal-item">
+                    <h3>🧠 Master life skills and personal development</h3>
+                </div>
+                <div class="goal-item">
+                    <h3>🚀 Build and release a personal project from concept to production</h3>
+                </div>
+                <div class="goal-item">
+                    <h3>📚 Deepen knowledge in programming languages and technologies</h3>
+                </div>
+                <div class="goal-item">
+                    <h3>💡 Enhance problem-solving abilities</h3>
+                </div>
+                <div class="goal-item">
+                    <h3>🌐 Contribute to open-source projects</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activities Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">🎮 When I'm Not Coding</h2>
+            <div class="activities fade-in">
+                <div class="activity-card">
+                    <div class="activity-icon">🎵</div>
+                    <h3>Music & Creative</h3>
+                    <p><strong>Production & Streaming</strong></p>
+                    <div class="links-grid">
+                        <a href="https://band.link/whtmst" class="link-btn">🎧 Band Link</a>
+                        <a href="https://open.spotify.com/artist/23j0hFXACCWZWRn1bCWydj" class="link-btn">🎵 Spotify</a>
+                        <a href="https://promodj.com/whtmst" class="link-btn">🎶 PromoDJ</a>
+                    </div>
+                    <p><strong>Tools:</strong> Ableton Live</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🎮</div>
+                    <h3>Gaming & Streaming</h3>
+                    <p><strong>Live Streaming</strong></p>
+                    <div class="links-grid">
+                        <a href="https://www.twitch.tv/whtmst" class="link-btn">📺 Twitch</a>
+                        <a href="https://live.vkvideo.ru/whtmst" class="link-btn">🔴 VK Live</a>
+                    </div>
+                    <p><strong>Games:</strong> Overwatch 2 • World of Warcraft • The Last of Us Series • Days Gone</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">💬 Social & Communication</h2>
+            <div class="fade-in">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--accent-primary);">📱 Main Platforms</h3>
+                <div class="links-grid">
+                    <a href="https://t.me/wht_mst_hub" class="link-btn">💬 Telegram</a>
+                    <a href="https://vk.com/whtmst" class="link-btn">🟦 VK</a>
+                    <a href="https://discord.com/invite/23Nv2BbHFV" class="link-btn">🎮 Discord</a>
+                </div>
+                
+                <h3 style="text-align: center; margin: 3rem 0 2rem; color: var(--accent-tertiary);">🌍 Content & Professional</h3>
+                <div class="links-grid">
+                    <a href="https://www.youtube.com/@whtmst" class="link-btn">📺 YouTube</a>
+                    <a href="https://www.linkedin.com/in/whtmst/" class="link-btn">💼 LinkedIn</a>
+                    <a href="https://www.instagram.com/wht_mst/" class="link-btn">📸 Instagram</a>
+                    <a href="https://x.com/whtmst" class="link-btn">🐦 X (Twitter)</a>
+                    <a href="https://www.tiktok.com/@whtmst" class="link-btn">🎵 TikTok</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">📬 Contact & Support</h2>
+            <div class="contact-methods fade-in">
+                <div class="contact-card">
+                    <h3>💌 Get In Touch</h3>
+                    <a href="mailto:wht.mst.official@gmail.com">📧 Email</a>
+                </div>
+                <div class="contact-card">
+                    <h3>💝 Support Me</h3>
+                    <a href="https://www.donationalerts.com/r/whtmst">💰 DonationAlerts</a><br><br>
+                    <a href="https://boosty.to/whtmst">🚀 Boosty</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container fade-in">
+            <p><em>Feel free to reach out if you want to chat about technology, music, or just say hello!</em></p>
+            <div class="profile-stats">
+                <img src="https://komarev.com/ghpvc/?username=whtmst&label=Profile%20Views&style=for-the-badge&color=4FC3F7" alt="Profile Views">
+            </div>
+            <p><strong>This repository is distributed under the MIT License</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // Add fade-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections and cards
+        document.querySelectorAll('.section, .tech-category, .goal-item, .activity-card, .highlight-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
