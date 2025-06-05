@@ -1,0 +1,30 @@
+# Jekyll configuration for GitHub Pages
+title: "Wht Mst"
+description: "Mikhail Palagin's personal page"
+
+# Disable Jekyll processing for better Markdown rendering
+markdown: kramdown
+highlighter: rouge
+
+# Enable HTML in Markdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-github-metadata
+
+# Exclude files from processing
+exclude:
+  - DEV-README.md
+  - .gitignore
+
+# GitHub Pages settings
+github: [metadata]
+
+# Allow unsafe HTML
+kramdown:
+  parse_block_html: true
+  parse_span_html: true

@@ -16,6 +16,11 @@
 !README.md
 !CONTRIBUTING.md
 !LICENSE
+!index.html
+!*.html
+!*.css
+!_config.yml
+!.nojekyll
 
 # !Makefile
 
