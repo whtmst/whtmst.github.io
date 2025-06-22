@@ -1,10 +1,3 @@
----
-layout: default
-title: "Wht Mst - Mikhail Palagin"
----
-
-<link rel="stylesheet" href="assets/css/style.css">
-
 <div align="center">
 
 # 👋 Hello, I'm Mikhail Palagin
