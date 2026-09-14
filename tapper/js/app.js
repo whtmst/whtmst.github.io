@@ -210,6 +210,12 @@ function reportEmbedHeight() {
     );
 }
 
+window.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "wm-tool-request-height") {
+        reportEmbedHeight();
+    }
+});
+
 window.reportEmbedHeight = reportEmbedHeight;
 
 /* =========================================================
