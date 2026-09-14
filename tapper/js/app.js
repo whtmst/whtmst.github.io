@@ -1,0 +1,1550 @@
+/* =========================================================
+   WM TAPPER
+   Main application controller
+   ========================================================= */
+
+/* =========================================================
+   IMPORTS
+   ========================================================= */
+
+import { settings } from "./settings.js";
+
+import {
+    supportedLanguages,
+    getTranslations,
+    formatDecimal,
+    formatConfidence,
+    formatAnalysisKey,
+} from "./i18n.js";
+
+import {
+    TapKeyController,
+    GlobalTapKeyController,
+    getKeyDisplayName,
+} from "./key-handler.js";
+
+import { TapEngine } from "./tap-engine.js";
+
+import { TrackAnalyzer } from "./analyzer.js";
+
+import { createTapUI } from "./tap-ui.js";
+
+import { createDropdownController } from "./dropdowns.js";
+
+import { createSessionController } from "./session.js";
+
+import { createLanguageUI } from "./language-ui.js";
+
+import {
+    decodeAudioFile,
+    extractPeaks,
+    createWaveformRenderer,
+} from "./waveform.js";
+
+/* =========================================================
+   DOM ELEMENTS
+   ========================================================= */
+
+const donateButton = document.getElementById("donateButton");
+
+const pinButton = document.getElementById("pinButton");
+
+const settingsButton = document.getElementById("settingsButton");
+
+const flipCard = document.getElementById("flipCard");
+
+const tapButton = document.getElementById("tapButton");
+
+const tapValue = document.getElementById("tapValue");
+
+const analyzeButton = document.getElementById("analyzeButton");
+
+const resetButton = document.getElementById("resetButton");
+
+const averageValue = document.getElementById("averageValue");
+
+const tapHistory = document.getElementById("tapHistory");
+
+const tapKeyControl = document.getElementById("tapKeyControl");
+
+const tapKeyValue = document.getElementById("tapKeyValue");
+
+const globalTapKeyControl = document.getElementById("globalTapKeyControl");
+const globalTapKeyValue = document.getElementById("globalTapKeyValue");
+const globalTapKeyLabel = document.getElementById("globalTapKeyLabel");
+
+const sessionControl = document.getElementById("sessionControl");
+
+const sessionValue = document.getElementById("sessionValue");
+
+const sessionMenu = document.getElementById("sessionMenu");
+
+const historyControl = document.getElementById("historyControl");
+
+const historyValue = document.getElementById("historyValue");
+
+const historyMenu = document.getElementById("historyMenu");
+
+const languageSwitcher = document.getElementById("languageSwitcher");
+
+const madeByText = document.getElementById("madeByText");
+
+const averageLabel = document.querySelector(".average__label");
+
+const settingsHeader = document.querySelector(".settings-content__header");
+
+const tapKeyLabel = document.getElementById("tapKeyLabel");
+
+const sessionLabel = document.getElementById("sessionLabel");
+
+const historyLabel = document.getElementById("historyLabel");
+
+const languageLabel = document.getElementById("languageLabel");
+
+const desktopDownloadBanner = document.getElementById("desktopDownloadBanner");
+const desktopDownloadText = document.getElementById("desktopDownloadText");
+const desktopDownloadLink = document.getElementById("desktopDownloadLink");
+
+/* =========================================================
+   ANALYSIS PANEL ELEMENTS
+   ========================================================= */
+
+const analysisPanel = document.getElementById("analysisPanel");
+
+const analysisWaveform = document.getElementById("analysisWaveform");
+
+const analysisOverlayLeft = document.getElementById("analysisOverlayLeft");
+
+const analysisOverlayRight = document.getElementById("analysisOverlayRight");
+
+const analysisSelection = document.getElementById("analysisSelection");
+
+const analysisStartHandle = document.getElementById("analysisStartHandle");
+
+const analysisEndHandle = document.getElementById("analysisEndHandle");
+
+const analysisStartTime = document.getElementById("analysisStartTime");
+
+const analysisEndTime = document.getElementById("analysisEndTime");
+
+const analysisMode = document.getElementById("analysisMode");
+
+const analysisModeControl = document.getElementById("analysisModeControl");
+
+const analysisModeMenu = document.getElementById("analysisModeMenu");
+
+const analysisModeValue = document.getElementById("analysisModeValue");
+
+const analysisGenre = document.getElementById("analysisGenre");
+
+const analysisGenreControl = document.getElementById("analysisGenreControl");
+
+const analysisGenreMenu = document.getElementById("analysisGenreMenu");
+
+const analysisRunButton = document.getElementById("analysisRunButton");
+
+const analysisBusyOverlay = document.getElementById("analysisBusyOverlay");
+
+const tapConfidence = document.getElementById("tapConfidence");
+
+const tapKey = document.getElementById("tapKey");
+
+const tapKeyAlts = document.getElementById("tapKeyAlts");
+const tapKeyAltsTitle = document.getElementById("tapKeyAltsTitle");
+const tapKeyAltsList = document.getElementById("tapKeyAltsList");
+
+const analysisWaveformCanvas = document.getElementById(
+    "analysisWaveformCanvas",
+);
+
+/* =========================================================
+   APPLICATION MODULES
+   ========================================================= */
+
+const tapEngine = new TapEngine();
+
+const trackAnalyzer = new TrackAnalyzer();
+
+const tapKeyController = new TapKeyController({
+    control: tapKeyControl,
+    value: tapKeyValue,
+    onTap: handleTap,
+    onCaptureStart: () => {
+        void unregisterGlobalTapKey();
+    },
+    onCaptureEnd: () => {
+        void registerGlobalTapKey(settings.get("globalTapKey"));
+    },
+});
+
+const globalTapKeyController = new GlobalTapKeyController({
+    control: globalTapKeyControl,
+    value: globalTapKeyValue,
+    onChanged: (code) => {
+        void registerGlobalTapKey(code);
+    },
+    onCaptureStart: () => {
+        void unregisterGlobalTapKey();
+    },
+    onCaptureEnd: () => {
+        void registerGlobalTapKey(settings.get("globalTapKey"));
+    },
+});
+
+/* =========================================================
+   GLOBAL SHORTCUT (Tauri only)
+   ========================================================= */
+
+function codeToAccelerator(code) {
+    if (code === "Space") {
+        return "Space";
+    }
+
+    if (/^Key[A-Z]$/.test(code)) {
+        return code.replace("Key", "");
+    }
+
+    if (/^Digit[0-9]$/.test(code)) {
+        return code.replace("Digit", "");
+    }
+
+    if (/^Numpad[0-9]$/.test(code)) {
+        return `Numpad${code.replace("Numpad", "")}`;
+    }
+
+    const map = {
+        Backquote: "`",
+        Minus: "-",
+        Equal: "=",
+        BracketLeft: "[",
+        BracketRight: "]",
+        Backslash: "\\",
+        Semicolon: ";",
+        Quote: "'",
+        Comma: ",",
+        Period: ".",
+        Slash: "/",
+        Enter: "Enter",
+        Tab: "Tab",
+        F1: "F1",
+        F2: "F2",
+        F3: "F3",
+        F4: "F4",
+        F5: "F5",
+        F6: "F6",
+        F7: "F7",
+        F8: "F8",
+        F9: "F9",
+        F10: "F10",
+        F11: "F11",
+        F12: "F12",
+    };
+
+    return map[code] || code;
+}
+
+let currentGlobalAccelerator = null;
+
+async function unregisterGlobalTapKey() {
+    if (!isTauriApp()) {
+        return;
+    }
+
+    const core = window.__TAURI__?.core;
+
+    if (!core?.invoke) {
+        return;
+    }
+
+    try {
+        await core.invoke("plugin:global-shortcut|unregister_all");
+    } catch (error) {
+        /* ignore */
+    }
+
+    if (currentGlobalAccelerator) {
+        try {
+            await core.invoke("plugin:global-shortcut|unregister", {
+                shortcuts: [currentGlobalAccelerator],
+            });
+        } catch (error) {
+            /* ignore */
+        }
+    }
+
+    currentGlobalAccelerator = null;
+}
+
+async function registerGlobalTapKey(code) {
+    if (!isTauriApp()) {
+        return;
+    }
+
+    const core = window.__TAURI__?.core;
+
+    if (!core?.invoke) {
+        console.warn("WM Tapper: Tauri core.invoke missing.");
+        return;
+    }
+
+    const accelerator = codeToAccelerator(code);
+
+    try {
+        try {
+            await core.invoke("plugin:global-shortcut|unregister_all");
+        } catch (error) {
+            /* ignore */
+        }
+
+        if (currentGlobalAccelerator) {
+            try {
+                await core.invoke("plugin:global-shortcut|unregister", {
+                    shortcuts: [currentGlobalAccelerator],
+                });
+            } catch (error) {
+                /* ignore */
+            }
+        }
+
+        const handler = new core.Channel();
+
+        handler.onmessage = async (event) => {
+            if (event?.state && event.state !== "Pressed") {
+                return;
+            }
+
+            const appWindow = getTauriWindow();
+
+            if (appWindow) {
+                try {
+                    const focused = await appWindow.isFocused();
+
+                    if (focused) {
+                        return;
+                    }
+                } catch (error) {
+                    /* ignore focus check */
+                }
+            }
+
+            handleTap();
+        };
+
+        await core.invoke("plugin:global-shortcut|register", {
+            shortcuts: [accelerator],
+            handler,
+        });
+
+        currentGlobalAccelerator = accelerator;
+
+        console.log("WM Tapper: global shortcut registered.", accelerator);
+    } catch (error) {
+        console.warn("WM Tapper: global shortcut failed.", error);
+    }
+}
+
+const waveform = createWaveformRenderer(analysisWaveformCanvas);
+
+
+/* =========================================================
+   STANDALONE MODE
+   ========================================================= */
+const APP_WINDOW_SIZE = {
+    normalWidth: 250,
+    normalHeight: 300,
+    analysisWidth: 250,
+    analysisHeight: 480,
+};
+
+function isTauriApp() {
+    return Boolean(window.__TAURI__);
+}
+
+function isStandaloneMode() {
+    return (
+        document.documentElement.classList.contains("is-standalone") ||
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.matchMedia("(display-mode: minimal-ui)").matches ||
+        window.navigator.standalone === true
+    );
+}
+
+function getTauriWindow() {
+    if (!window.__TAURI__) {
+        return null;
+    }
+
+    if (window.__TAURI__.webviewWindow?.getCurrentWebviewWindow) {
+        return window.__TAURI__.webviewWindow.getCurrentWebviewWindow();
+    }
+
+    if (window.__TAURI__.window?.getCurrentWindow) {
+        return window.__TAURI__.window.getCurrentWindow();
+    }
+
+    return null;
+}
+
+async function resizeAppWindow(width, height) {
+    if (isTauriApp()) {
+        const appWindow = getTauriWindow();
+
+        if (!appWindow) {
+            return;
+        }
+
+        try {
+            const LogicalSize =
+                window.__TAURI__.dpi?.LogicalSize ||
+                window.__TAURI__.window?.LogicalSize;
+
+            if (LogicalSize) {
+                await appWindow.setSize(new LogicalSize(width, height));
+            } else {
+                await appWindow.setSize({
+                    type: "Logical",
+                    width,
+                    height,
+                });
+            }
+        } catch (error) {
+            console.warn("WM Tapper: Tauri setSize failed.", error);
+        }
+
+        return;
+    }
+
+    if (!isStandaloneMode()) {
+        return;
+    }
+
+    try {
+        window.resizeTo(width + 16, height + 40);
+    } catch (error) {
+        /* browser may ignore */
+    }
+}
+
+async function applyAlwaysOnTop(enabled) {
+    const appWindow = getTauriWindow();
+
+    if (appWindow) {
+        try {
+            await appWindow.setAlwaysOnTop(Boolean(enabled));
+        } catch (error) {
+            console.warn("WM Tapper: setAlwaysOnTop failed.", error);
+        }
+    }
+
+    if (pinButton) {
+        pinButton.classList.toggle("is-active", Boolean(enabled));
+        pinButton.setAttribute("aria-pressed", Boolean(enabled) ? "true" : "false");
+    }
+}
+
+/* =========================================================
+   LOCAL HELPERS
+   ========================================================= */
+
+/**
+ * Get current language.
+ *
+ * @returns {string}
+ */
+function getCurrentLanguage() {
+    const language = settings.get("language");
+
+    if (supportedLanguages.includes(language)) {
+        return language;
+    }
+
+    return "en";
+}
+
+/**
+ * Format BPM with two decimals.
+ *
+ * @param {number|null} value
+ * @returns {string}
+ */
+function formatBpm(value) {
+    if (!Number.isFinite(value)) {
+        return "-";
+    }
+
+    const language = getCurrentLanguage();
+
+    return formatDecimal(Number(value.toFixed(2)), language);
+}
+
+/* =========================================================
+   AUDIO FILE PICKER
+   ========================================================= */
+
+const SUPPORTED_AUDIO_EXTENSIONS = [".mp3", ".wav", ".flac", ".aif", ".aiff"];
+
+const SUPPORTED_AUDIO_MIME_TYPES = [
+    "audio/mpeg",
+    "audio/wav",
+    "audio/x-wav",
+    "audio/flac",
+    "audio/aiff",
+    "audio/x-aiff",
+];
+
+/**
+ * Check whether a file has a supported extension.
+ *
+ * @param {File} file
+ * @returns {boolean}
+ */
+function hasSupportedAudioExtension(file) {
+    if (!(file instanceof File)) {
+        return false;
+    }
+
+    const fileName = file.name.toLowerCase();
+
+    return SUPPORTED_AUDIO_EXTENSIONS.some((extension) => {
+        return fileName.endsWith(extension);
+    });
+}
+
+/**
+ * Check whether a file has a supported MIME type.
+ *
+ * @param {File} file
+ * @returns {boolean}
+ */
+function hasSupportedAudioMimeType(file) {
+    if (!(file instanceof File)) {
+        return false;
+    }
+
+    if (!file.type) {
+        return true;
+    }
+
+    return SUPPORTED_AUDIO_MIME_TYPES.includes(file.type.toLowerCase());
+}
+
+/**
+ * Validate selected audio file.
+ *
+ * @param {File} file
+ * @returns {boolean}
+ */
+function isSupportedAudioFile(file) {
+    return hasSupportedAudioExtension(file) && hasSupportedAudioMimeType(file);
+}
+
+/**
+ * Create hidden audio file input.
+ *
+ * @returns {HTMLInputElement}
+ */
+function createAudioFileInput() {
+    const input = document.createElement("input");
+
+    input.type = "file";
+
+    input.multiple = false;
+
+    input.accept =
+        ".mp3,.wav,.flac,.aif,.aiff," +
+        "audio/mpeg,audio/wav,audio/x-wav," +
+        "audio/flac,audio/aiff,audio/x-aiff";
+
+    input.style.display = "none";
+
+    document.body.appendChild(input);
+
+    return input;
+}
+
+const audioFileInput = createAudioFileInput();
+
+/* =========================================================
+   AUDIO ANALYSIS PANEL STATE
+   ========================================================= */
+
+let selectedAudioFile = null;
+
+let selectedAudioBuffer = null;
+
+let analysisDuration = 0;
+
+let analysisStartRatio = 0;
+
+let analysisEndRatio = 1;
+
+let analysisModeValueCurrent = "full";
+
+let analysisGenreValueCurrent = "auto";
+
+let activeAnalysisHandle = null;
+
+let isAnalysisRunning = false;
+
+/* =========================================================
+   AUDIO ANALYSIS PANEL HELPERS
+   ========================================================= */
+
+/**
+ * Format seconds as MM:SS.t
+ *
+ * @param {number} seconds
+ * @returns {string}
+ */
+function formatAnalysisTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) {
+        return "--:--.-";
+    }
+
+    const minutes = Math.floor(seconds / 60);
+
+    const remainingSeconds = seconds - minutes * 60;
+
+    const wholeSeconds = Math.floor(remainingSeconds);
+
+    const tenth = Math.floor((remainingSeconds - wholeSeconds) * 10);
+
+    return (
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(wholeSeconds).padStart(2, "0")}.` +
+        `${tenth}`
+    );
+}
+
+/**
+ * Update analysis range UI.
+ */
+function updateAnalysisRangeUI() {
+    const startPercent = analysisStartRatio * 100;
+
+    const endPercent = analysisEndRatio * 100;
+
+    analysisStartHandle.style.left = `${startPercent}%`;
+
+    analysisEndHandle.style.left = `calc(${endPercent}% - 1px)`;
+
+    analysisSelection.style.left = `${startPercent}%`;
+
+    analysisSelection.style.width = `${Math.max(
+        0,
+        endPercent - startPercent,
+    )}%`;
+
+    analysisOverlayLeft.style.width = `${startPercent}%`;
+
+    analysisOverlayRight.style.width = `${Math.max(0, 100 - endPercent)}%`;
+
+    const startTime = analysisDuration * analysisStartRatio;
+
+    const endTime = analysisDuration * analysisEndRatio;
+
+    analysisStartTime.textContent = formatAnalysisTime(startTime);
+
+    analysisEndTime.textContent = formatAnalysisTime(endTime);
+}
+
+/**
+ * Apply analysis mode in the application layer.
+ *
+ * @param {string} mode
+ */
+function applyAnalysisMode(mode) {
+    if (!["full", "selection", "fast"].includes(mode)) {
+        return;
+    }
+
+    /*
+     * Tracks shorter than 30 seconds can only be
+     * analyzed as a complete track.
+     */
+    if (mode === "selection" && analysisDuration > 0 && analysisDuration < 30) {
+        mode = "full";
+
+        if (typeof dropdowns !== "undefined") {
+            dropdowns.setAnalysisMode("full");
+        }
+    }
+
+    analysisModeValueCurrent = mode;
+
+    analysisPanel.classList.toggle("analysis-panel--fast", mode === "fast");
+
+    if (mode === "full" || mode === "fast") {
+        analysisStartRatio = 0;
+
+        analysisEndRatio = 1;
+
+        updateAnalysisRangeUI();
+    }
+}
+
+/**
+ * Open analysis panel.
+ */
+function openAnalysisPanel() {
+    analysisPanel.setAttribute("aria-hidden", "false");
+
+    document.querySelector(".app-window").classList.add("analysis-panel-open");
+
+    void resizeAppWindow(
+        APP_WINDOW_SIZE.analysisWidth,
+        APP_WINDOW_SIZE.analysisHeight,
+    );
+}
+
+/**
+ * Close analysis panel.
+ */
+function closeAnalysisPanel() {
+    analysisPanel.setAttribute("aria-hidden", "true");
+
+    document
+        .querySelector(".app-window")
+        .classList.remove("analysis-panel-open");
+
+    activeAnalysisHandle = null;
+
+    void resizeAppWindow(
+        APP_WINDOW_SIZE.normalWidth,
+        APP_WINDOW_SIZE.normalHeight,
+    );
+}
+
+/**
+ * Load audio duration only.
+ *
+ * @param {File} file
+ * @returns {Promise<number>}
+ */
+function loadAudioDuration(file) {
+    return new Promise((resolve, reject) => {
+        const objectUrl = URL.createObjectURL(file);
+
+        const audio = new Audio();
+
+        audio.preload = "metadata";
+
+        const cleanup = () => {
+            URL.revokeObjectURL(objectUrl);
+
+            audio.removeAttribute("src");
+
+            audio.load();
+        };
+
+        audio.onloadedmetadata = () => {
+            const duration = Number(audio.duration);
+
+            cleanup();
+
+            if (Number.isFinite(duration) && duration > 0) {
+                resolve(duration);
+
+                return;
+            }
+
+            reject(new Error("WM Tapper: could not determine audio duration."));
+        };
+
+        audio.onerror = () => {
+            cleanup();
+
+            reject(new Error("WM Tapper: could not load audio metadata."));
+        };
+
+        audio.src = objectUrl;
+    });
+}
+
+/**
+ * Set analysis button busy state.
+ *
+ * @param {boolean} state
+ */
+function setAnalysisRunning(state) {
+    isAnalysisRunning = state;
+
+    analysisRunButton.disabled = state;
+
+    analysisRunButton.classList.toggle("is-analyzing", state);
+
+    analysisBusyOverlay.classList.toggle("is-visible", state);
+
+    analysisPanel.classList.toggle("analysis-panel--busy", state);
+
+    analysisBusyOverlay.setAttribute("aria-hidden", state ? "false" : "true");
+
+    if (state) {
+        analysisRunButton.dataset.previousText = analysisRunButton.textContent;
+
+        let dots = 0;
+        analysisRunButton.textContent = "ANALYZING";
+
+        if (window.__wmAnalyzeDotsTimer) {
+            clearInterval(window.__wmAnalyzeDotsTimer);
+        }
+
+        window.__wmAnalyzeDotsTimer = setInterval(() => {
+            dots = (dots + 1) % 4;
+            analysisRunButton.textContent = "ANALYZING" + ".".repeat(dots);
+        }, 400);
+
+        return;
+    }
+
+    if (window.__wmAnalyzeDotsTimer) {
+        clearInterval(window.__wmAnalyzeDotsTimer);
+        window.__wmAnalyzeDotsTimer = null;
+    }
+
+    const previousText = analysisRunButton.dataset.previousText;
+
+    if (previousText) {
+        analysisRunButton.textContent = previousText;
+
+        delete analysisRunButton.dataset.previousText;
+    }
+}
+
+/* =========================================================
+   ANALYSIS HANDLE DRAGGING
+   ========================================================= */
+
+/**
+ * Start dragging one analysis handle.
+ *
+ * @param {string} handle
+ * @param {PointerEvent} event
+ */
+function startAnalysisHandleDrag(handle, event) {
+    if (
+        isAnalysisRunning ||
+        analysisModeValueCurrent === "fast" ||
+        (analysisDuration > 0 && analysisDuration < 30)
+    ) {
+        return;
+    }
+
+    activeAnalysisHandle = handle;
+
+    event.preventDefault();
+}
+
+/**
+ * Update dragged analysis handle.
+ *
+ * @param {PointerEvent} event
+ */
+function updateAnalysisHandleDrag(event) {
+    if (
+        isAnalysisRunning ||
+        !activeAnalysisHandle ||
+        analysisModeValueCurrent === "fast"
+    ) {
+        return;
+    }
+
+    const rect = analysisWaveform.getBoundingClientRect();
+
+    if (rect.width <= 0) {
+        return;
+    }
+
+    let ratio = (event.clientX - rect.left) / rect.width;
+
+    ratio = Math.max(0, Math.min(1, ratio));
+
+    const minimumRange =
+        analysisDuration > 0 ? Math.min(1, 30 / analysisDuration) : 1;
+
+    if (activeAnalysisHandle === "start") {
+        analysisStartRatio = Math.min(ratio, analysisEndRatio - minimumRange);
+
+        analysisStartRatio = Math.max(0, analysisStartRatio);
+
+        if (analysisModeValueCurrent !== "selection") {
+            applyAnalysisMode("selection");
+
+            dropdowns.setAnalysisMode("selection");
+        }
+
+        updateAnalysisRangeUI();
+
+        return;
+    }
+
+    if (activeAnalysisHandle === "end") {
+        analysisEndRatio = Math.max(ratio, analysisStartRatio + minimumRange);
+
+        analysisEndRatio = Math.min(1, analysisEndRatio);
+
+        if (analysisModeValueCurrent !== "selection") {
+            applyAnalysisMode("selection");
+
+            dropdowns.setAnalysisMode("selection");
+        }
+
+        updateAnalysisRangeUI();
+    }
+}
+
+/**
+ * Finish dragging analysis handle.
+ */
+function endAnalysisHandleDrag() {
+    activeAnalysisHandle = null;
+}
+
+analysisStartHandle.addEventListener("pointerdown", (event) => {
+    startAnalysisHandleDrag("start", event);
+});
+
+analysisEndHandle.addEventListener("pointerdown", (event) => {
+    startAnalysisHandleDrag("end", event);
+});
+
+document.addEventListener("pointermove", (event) => {
+    updateAnalysisHandleDrag(event);
+});
+
+document.addEventListener("pointerup", () => {
+    endAnalysisHandleDrag();
+});
+
+/* =========================================================
+   APPLICATION DROPDOWNS
+   ========================================================= */
+
+const dropdowns = createDropdownController(
+    {
+        sessionControl,
+        sessionMenu,
+
+        historyControl,
+        historyMenu,
+
+        analysisMode,
+        analysisModeControl,
+        analysisModeMenu,
+
+        analysisGenre,
+        analysisGenreControl,
+        analysisGenreMenu,
+    },
+    {
+        onSessionChange: (value) => {
+            settings.set("sessionTimeout", value);
+
+            tapEngine.configure({
+                sessionTimeout: settings.get("sessionTimeout"),
+
+                historyLength: settings.get("historyLength"),
+            });
+
+            languageUI.updateSessionDisplay();
+        },
+
+        onHistoryChange: (value) => {
+            settings.set("historyLength", value);
+
+            tapEngine.configure({
+                sessionTimeout: settings.get("sessionTimeout"),
+
+                historyLength: settings.get("historyLength"),
+            });
+
+            languageUI.updateHistoryDisplay();
+        },
+
+        onAnalysisModeChange: (mode) => {
+            if (isAnalysisRunning) {
+                return;
+            }
+
+            applyAnalysisMode(mode);
+        },
+
+        onAnalysisGenreChange: (genre) => {
+            if (isAnalysisRunning) {
+                return;
+            }
+
+            analysisGenreValueCurrent = genre;
+        },
+    },
+);
+
+/* =========================================================
+   TAP UI
+   ========================================================= */
+
+const tapUI = createTapUI(
+    {
+        tapValue,
+        averageValue,
+        tapHistory,
+    },
+    {
+        tapEngine,
+        getCurrentLanguage,
+        formatBpm,
+        getTranslations,
+    },
+);
+
+/* =========================================================
+   LANGUAGE UI
+   ========================================================= */
+
+const languageUI = createLanguageUI(
+    {
+        languageSwitcher,
+        averageLabel,
+        resetButton,
+        analyzeButton,
+        analysisRunButton,
+        analysisModeValue,
+        analysisModeMenu,
+        settingsHeader,
+        tapKeyLabel,
+        sessionLabel,
+        historyLabel,
+        languageLabel,
+        madeByText,
+        sessionValue,
+        sessionMenu,
+        historyValue,
+        historyMenu,
+        tapConfidence,
+        tapKey,
+        tapKeyAlts,
+        tapKeyAltsTitle,
+        tapKeyAltsList,
+        tapButton,
+        desktopDownloadText,
+        desktopDownloadLink,
+        globalTapKeyLabel,
+    },
+    {
+        settings,
+        supportedLanguages,
+        getTranslations,
+        formatDecimal,
+        formatAnalysisKey,
+        formatConfidence,
+        tapKeyController,
+        tapUI,
+        dropdowns,
+    },
+);
+
+/* =========================================================
+   AUDIO FILE SELECTION
+   ========================================================= */
+
+audioFileInput.addEventListener("change", async () => {
+    const file = audioFileInput.files?.[0];
+
+    if (!file) {
+        audioFileInput.value = "";
+
+        return;
+    }
+
+    if (!isSupportedAudioFile(file)) {
+        console.warn(
+            "WM Tapper: unsupported audio file.",
+            file.name,
+            file.type,
+        );
+
+        audioFileInput.value = "";
+
+        return;
+    }
+
+    console.log("WM Tapper: audio file selected.", {
+        name: file.name,
+
+        type: file.type,
+
+        size: file.size,
+    });
+
+    await prepareAnalysisPanel(file);
+
+    audioFileInput.value = "";
+});
+
+/* =========================================================
+   ANALYZE FILE BUTTON
+   ========================================================= */
+
+analyzeButton.addEventListener("click", () => {
+    if (isAnalysisRunning) {
+        return;
+    }
+
+    audioFileInput.click();
+});
+
+/* =========================================================
+   ANALYSIS PANEL PREPARATION
+   ========================================================= */
+
+/**
+ * Prepare analysis panel for selected file.
+ *
+ * No Essentia analysis is started here.
+ *
+ * @param {File} file
+ * @returns {Promise<void>}
+ */
+async function prepareAnalysisPanel(file) {
+    selectedAudioFile = file;
+
+    selectedAudioBuffer = null;
+
+    analysisDuration = 0;
+
+    analysisStartRatio = 0;
+
+    analysisEndRatio = 1;
+
+    applyAnalysisMode("full");
+
+    dropdowns.setAnalysisMode("full");
+
+    analysisGenreValueCurrent = "auto";
+
+    dropdowns.setAnalysisGenre("auto");
+
+    waveform.clear();
+
+    updateAnalysisRangeUI();
+
+    openAnalysisPanel();
+
+    try {
+        console.log("WM Tapper: decoding waveform...");
+
+        selectedAudioBuffer = await decodeAudioFile(file);
+
+        analysisDuration = selectedAudioBuffer.duration;
+
+        const peaks = extractPeaks(selectedAudioBuffer, 120);
+
+        waveform.setPeaks(peaks);
+
+        updateAnalysisRangeUI();
+
+        console.log("WM Tapper: waveform ready.", {
+            duration: selectedAudioBuffer.duration,
+
+            sampleRate: selectedAudioBuffer.sampleRate,
+
+            channels: selectedAudioBuffer.numberOfChannels,
+
+            peaks: peaks.length,
+        });
+    } catch (error) {
+        console.error("WM Tapper: failed to prepare waveform.", error);
+
+        try {
+            analysisDuration = await loadAudioDuration(file);
+
+            updateAnalysisRangeUI();
+        } catch (durationError) {
+            console.error(
+                "WM Tapper: failed to read audio duration.",
+                durationError,
+            );
+        }
+    }
+}
+
+/* =========================================================
+   ANALYSIS RUN BUTTON
+   ========================================================= */
+
+analysisRunButton.addEventListener("click", async () => {
+    if (isAnalysisRunning || !selectedAudioFile) {
+        return;
+    }
+
+    if (!Number.isFinite(analysisDuration) || analysisDuration <= 0) {
+        console.error("WM Tapper: analysis duration is unavailable.");
+
+        return;
+    }
+
+    const startTime = analysisDuration * analysisStartRatio;
+
+    const endTime = analysisDuration * analysisEndRatio;
+
+    const analysisStartedAt = performance.now();
+
+    console.log("WM Tapper: analysis started.", {
+        file: selectedAudioFile.name,
+
+        mode: analysisModeValueCurrent,
+
+        genre: analysisGenreValueCurrent,
+
+        startTime,
+
+        endTime,
+
+        duration: analysisDuration,
+
+        startedAt: new Date().toISOString(),
+    });
+
+    setAnalysisRunning(true);
+
+    try {
+        /*
+         * Give the browser one frame so the
+         * ANALYZING state is painted before
+         * the heavy synchronous work begins.
+         */
+
+        await new Promise((resolve) => {
+            requestAnimationFrame(() => resolve());
+        });
+
+        const result = await trackAnalyzer.analyze(selectedAudioFile, {
+            mode: analysisModeValueCurrent,
+
+            genre: analysisGenreValueCurrent,
+
+            startTime,
+
+            endTime,
+
+            duration: analysisDuration,
+
+            audioBuffer: selectedAudioBuffer,
+        });
+
+        console.log("WM Tapper: analysis result.", result);
+
+        if (result && Number.isFinite(result.bpm)) {
+            tapValue.textContent = `${Math.round(result.bpm)} BPM`;
+        }
+
+        languageUI.updateAnalysisResult(result);
+
+        /*
+         * Keep the result available for the
+         * next UI stage.
+         */
+        window.WMTapperLastAnalysis = result;
+
+        closeAnalysisPanel();
+
+        const analysisFinishedAt = performance.now();
+
+        console.log("WM Tapper: analysis timing.", {
+            mode: analysisModeValueCurrent,
+
+            startedAt: new Date().toISOString(),
+
+            durationSeconds: Number(
+                ((analysisFinishedAt - analysisStartedAt) / 1000).toFixed(3),
+            ),
+        });
+    } catch (error) {
+        const analysisFinishedAt = performance.now();
+
+        console.error("WM Tapper: analysis failed.", error);
+
+        console.log("WM Tapper: analysis timing.", {
+            mode: analysisModeValueCurrent,
+
+            startedAt: new Date().toISOString(),
+
+            durationSeconds: Number(
+                ((analysisFinishedAt - analysisStartedAt) / 1000).toFixed(3),
+            ),
+
+            failed: true,
+        });
+    } finally {
+        setAnalysisRunning(false);
+    }
+});
+
+/* =========================================================
+   SESSION
+   ========================================================= */
+
+const session = createSessionController({
+    tapEngine,
+
+    onSessionFinished: (averageBpm) => {
+        tapUI.showFinalBpm(averageBpm);
+    },
+});
+
+/* =========================================================
+   TAP RESULT
+   ========================================================= */
+
+function handleTap() {
+    languageUI.updateAnalysisResult(null);
+
+    if (isAnalysisRunning) {
+        return;
+    }
+
+    session.clear();
+
+    const result = tapEngine.registerTap();
+
+    if (result.isNewSession) {
+        tapUI.showTap();
+
+        tapUI.showAverageBpm(null);
+    }
+
+    if (Number.isFinite(result.bpm)) {
+        tapUI.showCurrentBpm(result.bpm);
+    }
+
+    tapUI.showAverageBpm(result.averageBpm);
+
+    if (Array.isArray(result.history) && result.history.length > 0) {
+        session.restart(Number(settings.get("sessionTimeout")));
+    }
+
+    tapUI.renderTapHistory(result.history);
+}
+
+/* =========================================================
+   TAP BUTTON
+   ========================================================= */
+
+tapButton.addEventListener("click", () => {
+    handleTap();
+});
+
+/* =========================================================
+   DONATE BUTTON
+   ========================================================= */
+
+donateButton.addEventListener("click", async () => {
+    const url = "https://dalink.to/whtmst";
+
+    if (isTauriApp()) {
+        try {
+            if (window.__TAURI__?.opener?.openUrl) {
+                await window.__TAURI__.opener.openUrl(url);
+                return;
+            }
+
+            if (window.__TAURI__?.core?.invoke) {
+                await window.__TAURI__.core.invoke("plugin:opener|open_url", {
+                    url,
+                });
+                return;
+            }
+        } catch (error) {
+            console.warn("WM Tapper: opener failed.", error);
+        }
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer");
+});
+
+/* =========================================================
+   SETTINGS FLIP
+   ========================================================= */
+
+settingsButton.addEventListener("click", () => {
+    if (isAnalysisRunning) {
+        return;
+    }
+
+    closeAnalysisPanel();
+
+    dropdowns.closeAll();
+
+    flipCard.classList.toggle("is-flipped");
+
+    languageUI.updateLanguageButtons(languageUI.getCurrentLanguage());
+});
+
+/* =========================================================
+   TAURI MIN. CLOSE BUTTONS
+   ========================================================= */
+const minimizeButton = document.querySelector(".window-control--minimize");
+const closeButton = document.querySelector(".window-control--close");
+
+if (pinButton) {
+    pinButton.addEventListener("click", async (event) => {
+        event.stopPropagation();
+
+        if (!isTauriApp()) {
+            return;
+        }
+
+        const nextValue = !settings.get("alwaysOnTop");
+        settings.set("alwaysOnTop", nextValue);
+        await applyAlwaysOnTop(nextValue);
+    });
+}
+
+if (minimizeButton) {
+    minimizeButton.addEventListener("click", async (event) => {
+        event.stopPropagation();
+
+        const appWindow = getTauriWindow();
+
+        if (appWindow) {
+            await appWindow.minimize();
+        }
+    });
+}
+
+if (closeButton) {
+    closeButton.addEventListener("click", async (event) => {
+        event.stopPropagation();
+
+        const appWindow = getTauriWindow();
+
+        if (appWindow) {
+            await appWindow.close();
+        }
+    });
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+resetButton.addEventListener("click", () => {
+    if (isAnalysisRunning) {
+        return;
+    }
+
+    languageUI.updateAnalysisResult(null);
+
+    session.reset();
+
+    tapEngine.reset();
+
+    tapUI.reset();
+
+    selectedAudioFile = null;
+
+    selectedAudioBuffer = null;
+
+    analysisDuration = 0;
+
+    analysisStartRatio = 0;
+
+    analysisEndRatio = 1;
+
+    applyAnalysisMode("full");
+
+    dropdowns.setAnalysisMode("full");
+
+    analysisGenreValueCurrent = "auto";
+
+    dropdowns.setAnalysisGenre("auto");
+
+    waveform.clear();
+
+    updateAnalysisRangeUI();
+
+    closeAnalysisPanel();
+});
+
+/* =========================================================
+   PREVENT SPACE SCROLLING
+   ========================================================= */
+
+document.addEventListener("keydown", (event) => {
+    if (event.code === "Space" && !tapKeyController.isCapturing) {
+        event.preventDefault();
+    }
+});
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
+
+function initialize() {
+    if (isTauriApp()) {
+        document.documentElement.classList.add("is-tauri");
+    }
+
+    if (isStandaloneMode()) {
+        document.documentElement.classList.add("is-standalone");
+    }
+
+    void resizeAppWindow(
+        APP_WINDOW_SIZE.normalWidth,
+        APP_WINDOW_SIZE.normalHeight,
+    );
+
+    settings.load();
+
+    if (isTauriApp()) {
+        void applyAlwaysOnTop(Boolean(settings.get("alwaysOnTop")));
+    }
+
+    tapEngine.configure({
+        sessionTimeout: settings.get("sessionTimeout"),
+        historyLength: settings.get("historyLength"),
+    });
+
+    tapKeyController.initialize();
+
+    if (isTauriApp()) {
+        globalTapKeyController.initialize();
+        void registerGlobalTapKey(settings.get("globalTapKey"));
+    }
+
+    languageUI.applyLanguage(languageUI.getCurrentLanguage());
+
+    languageUI.updateLanguageButtons(languageUI.getCurrentLanguage());
+
+    applyAnalysisMode("full");
+
+    dropdowns.setAnalysisMode("full");
+
+    analysisGenreValueCurrent = "auto";
+
+    dropdowns.setAnalysisGenre("auto");
+
+    if (
+        desktopDownloadBanner &&
+        !isTauriApp() &&
+        window.matchMedia("(min-width: 769px)").matches
+    ) {
+        desktopDownloadBanner.hidden = false;
+        desktopDownloadBanner.removeAttribute("hidden");
+    }
+}
+
+/* =========================================================
+   START APPLICATION
+   ========================================================= */
+
+/* =========================================================
+   DISABLE CONTEXT MENU (desktop app)
+   ========================================================= */
+
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+});
+
+
+initialize();
