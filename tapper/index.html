@@ -3,6 +3,16 @@
     <head>
         <meta charset="UTF-8" />
 
+        <script>
+            (function () {
+                if (window.parent === window) {
+                    var target = new URL("/", window.location.origin);
+                    target.searchParams.set("open", "tapper");
+                    window.location.replace(target.toString());
+                }
+            })();
+        </script>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <title>WM Tapper</title>
