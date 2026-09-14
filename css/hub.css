@@ -28,7 +28,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 50px 32px;
     background: #191919;
     color: #ecdbba;
@@ -125,16 +125,19 @@ button {
     padding: 4px 12px;
     border-radius: 2px;
     background: #c84b31;
-    color: #1e1e1e;
+    color: #ffffff;
     font-size: 11px;
     font-weight: 700;
     line-height: 1.2;
     white-space: nowrap;
-    transition: filter 120ms ease;
+    transition:
+        background-color 120ms ease,
+        color 120ms ease;
 }
 
 .rack__donate:hover {
-    filter: brightness(1.06);
+    background: #ecdbba;
+    color: #c84b31;
 }
 
 /* =========================================================
@@ -279,20 +282,15 @@ button {
     line-height: 1;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    transition:
-        background-color 120ms ease,
-        color 120ms ease,
-        filter 120ms ease;
+    transition: color 120ms ease;
 }
 
 .module__btn:hover {
-    filter: brightness(1.08);
+    color: #ecdbba;
 }
 
 .module__btn.is-active {
-    background: #c84b31;
-    border-color: #c84b31;
-    color: #1e1e1e;
+    color: #ecdbba;
 }
 
 .module__btn--disabled,
@@ -300,7 +298,11 @@ button {
     background: #252525;
     color: #9ca3af;
     cursor: default;
-    filter: none;
+}
+
+.module__btn--disabled:hover,
+.module__btn:disabled:hover {
+    color: #9ca3af;
 }
 
 /* =========================================================
@@ -357,17 +359,21 @@ button {
     font-weight: 700;
     line-height: 1;
     text-transform: uppercase;
-    transition: filter 120ms ease;
+    transition: color 120ms ease;
 }
 
 .module__dl-btn:hover {
-    filter: brightness(1.08);
+    color: #ecdbba;
 }
 
 .module__dl-btn--soon {
     background: #252525;
     color: #9ca3af;
     pointer-events: none;
+}
+
+.module__dl-btn--soon:hover {
+    color: #9ca3af;
 }
 
 /* =========================================================
