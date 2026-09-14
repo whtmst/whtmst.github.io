@@ -1,0 +1,2642 @@
+/* =========================================================
+   WM TAPPER
+   Main stylesheet
+   ========================================================= */
+
+/* =========================================================
+   FONT
+   ========================================================= */
+
+@font-face {
+    font-family: "Finlandica";
+
+    src: url("../../assets/fonts/Finlandica-VariableFont_wght.ttf")
+        format("truetype");
+
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+
+:root {
+    /* ---------------------------------------------
+       Window
+       --------------------------------------------- */
+
+    --window-width: 250px;
+    --window-height: 300px;
+
+    /* ---------------------------------------------
+       Background
+       --------------------------------------------- */
+
+    --background-page: #101214;
+
+    --background-window-top: #1d2022;
+    --background-window-bottom: #151719;
+
+    /* ---------------------------------------------
+       Borders
+       --------------------------------------------- */
+
+    --border-window: rgba(255, 255, 255, 0.055);
+    --border-soft: rgba(255, 255, 255, 0.035);
+    --border-footer: rgba(255, 255, 255, 0.055);
+
+    /* ---------------------------------------------
+       Text
+       --------------------------------------------- */
+
+    --text-primary: #f0f2ec;
+    --text-secondary: rgba(240, 242, 236, 0.56);
+    --text-muted: rgba(240, 242, 236, 0.32);
+
+    /* ---------------------------------------------
+       Accent
+       --------------------------------------------- */
+
+    --accent-light: #e8ff9a;
+    --accent-primary: #c8e957;
+    --accent-medium: #b4d447;
+    --accent-dark: #849f35;
+
+    /* ---------------------------------------------
+       Accent glow
+       --------------------------------------------- */
+
+    --accent-glow-soft: rgba(200, 233, 87, 0.12);
+    --accent-glow-medium: rgba(200, 233, 87, 0.2);
+    --accent-glow-strong: rgba(200, 233, 87, 0.3);
+
+    /* ---------------------------------------------
+       Motion
+       --------------------------------------------- */
+
+    --transition-fast: 100ms ease;
+    --transition-normal: 180ms ease;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+html {
+    background: var(--background-page);
+
+    font-family: "Finlandica", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255, 255, 255, 0.025),
+            transparent 48%
+        ),
+        var(--background-page);
+
+    color: var(--text-primary);
+
+    font-family: "Finlandica", sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    appearance: none;
+
+    border: 0;
+    outline: 0;
+
+    color: inherit;
+
+    cursor: pointer;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 1px solid rgba(200, 233, 87, 0.55);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   APPLICATION WINDOW
+   ========================================================= */
+
+.app-window {
+    width: var(--window-width);
+    height: var(--window-height);
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--border-window);
+    border-radius: 12px;
+
+    background: linear-gradient(
+        180deg,
+        var(--background-window-top) 0%,
+        #1a1d1f 48%,
+        var(--background-window-bottom) 100%
+    );
+
+    box-shadow:
+        0 22px 50px rgba(0, 0, 0, 0.48),
+        0 5px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+/* =========================================================
+   TITLE BAR
+   ========================================================= */
+
+.title-bar {
+    position: relative;
+
+    width: 100%;
+    height: 38px;
+    min-height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7px 0 13px;
+
+    border-bottom: 1px solid var(--border-soft);
+
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.012),
+        rgba(255, 255, 255, 0)
+    );
+}
+
+/* =========================================================
+   WINDOW TITLE
+   ========================================================= */
+
+.title-bar__title {
+    color: rgba(240, 242, 236, 0.88);
+
+    font-size: 13px;
+    font-weight: 570;
+
+    line-height: 1;
+
+    letter-spacing: 0.02em;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   WINDOW CONTROLS
+   ========================================================= */
+
+.title-bar__controls {
+    display: flex;
+    align-items: center;
+
+    gap: 2px;
+}
+
+.window-control {
+    position: relative;
+
+    width: 23px;
+    height: 23px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    opacity: 0.82;
+
+    transition:
+        background-color var(--transition-fast),
+        opacity var(--transition-fast);
+}
+
+.window-control:hover {
+    background: rgba(255, 255, 255, 0.055);
+
+    opacity: 1;
+}
+
+.window-control:active {
+    background: rgba(255, 255, 255, 0.085);
+}
+
+/* =========================================================
+   SETTINGS ICON
+   ========================================================= */
+
+.settings-icon {
+    width: 13px;
+    height: 13px;
+
+    display: block;
+
+    object-fit: contain;
+
+    opacity: 0.68;
+
+    transition:
+        opacity var(--transition-fast),
+        transform 180ms ease;
+}
+
+.window-control--settings:hover .settings-icon {
+    opacity: 1;
+
+    transform: rotate(30deg);
+}
+
+/* =========================================================
+   MINIMIZE ICON
+   ========================================================= */
+
+.window-control--minimize span {
+    width: 9px;
+    height: 1px;
+
+    display: block;
+
+    border-radius: 1px;
+
+    background: rgba(240, 242, 236, 0.6);
+
+    transition: background-color var(--transition-fast);
+}
+
+.window-control--minimize:hover span {
+    background: rgba(240, 242, 236, 0.88);
+}
+
+/* =========================================================
+   CLOSE ICON
+   ========================================================= */
+
+.window-control--close span,
+.window-control--close span::after {
+    position: absolute;
+
+    width: 10px;
+    height: 1px;
+
+    display: block;
+
+    content: "";
+
+    border-radius: 1px;
+
+    background: rgba(240, 242, 236, 0.6);
+}
+
+.window-control--close span {
+    transform: rotate(45deg);
+}
+
+.window-control--close span::after {
+    transform: rotate(90deg);
+}
+
+.window-control--close:hover span,
+.window-control--close:hover span::after {
+    background: rgba(240, 242, 236, 0.9);
+}
+
+/* =========================================================
+   STANDALONE (PWA) / TAURI
+   ========================================================= */
+
+/* Web / PWA: no window chrome */
+html:not(.is-tauri) .window-control--minimize,
+html:not(.is-tauri) .window-control--close {
+    display: none !important;
+}
+
+/* Tauri only */
+html.is-tauri .window-control--minimize,
+html.is-tauri .window-control--close {
+    display: inline-flex !important;
+}
+
+html.is-standalone,
+html.is-standalone body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+html.is-standalone body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+html.is-standalone .app-window {
+    width: var(--window-width);
+    height: var(--window-height);
+    flex-shrink: 0;
+    margin-top: 0;
+}
+
+html.is-standalone .app-window.analysis-panel-open {
+    overflow: visible;
+}
+
+/* =========================================================
+   TAURI WINDOW
+   ========================================================= */
+
+html.is-tauri,
+html.is-tauri body {
+    background: transparent !important;
+    overflow: hidden !important;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+html.is-tauri body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+html.is-tauri .app-window {
+    overflow: visible;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.28),
+        0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+html.is-tauri .app-window.analysis-panel-open {
+    overflow: visible;
+}
+
+html.is-tauri .analysis-panel {
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.018);
+}
+
+html {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+input,
+textarea {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+/* =========================================================
+   FLIP CONTAINER
+   ========================================================= */
+
+.flip-container {
+    position: relative;
+
+    flex: 1;
+
+    overflow: hidden;
+
+    perspective: 900px;
+}
+
+.flip-card {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    transform-style: preserve-3d;
+
+    transition: transform 460ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.flip-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* =========================================================
+   FLIP SIDES
+   ========================================================= */
+
+.flip-side {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.flip-side--front {
+    transform: rotateY(0deg);
+}
+
+.flip-side--back {
+    transform: rotateY(180deg);
+}
+
+/* =========================================================
+   FRONT CONTENT
+   ========================================================= */
+
+.app-content {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 11px 11px 10px;
+}
+
+/* =========================================================
+   TAP BUTTON
+   ========================================================= */
+
+.tap-button {
+    position: relative;
+
+    width: 100%;
+    height: 138px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(231, 255, 154, 0.22);
+    border-radius: 16px;
+
+    background: radial-gradient(
+        circle at 50% 43%,
+        #eaffad 0%,
+        var(--accent-light) 12%,
+        var(--accent-primary) 33%,
+        var(--accent-medium) 65%,
+        var(--accent-dark) 100%
+    );
+
+    color: #24291a;
+
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.34),
+        inset 0 -3px 8px rgba(45, 62, 10, 0.22),
+        0 8px 18px rgba(0, 0, 0, 0.24),
+        0 0 21px var(--accent-glow-soft);
+
+    transform: translateY(0) scale(1);
+
+    transition:
+        transform 90ms ease,
+        filter 140ms ease,
+        box-shadow 140ms ease;
+}
+
+.tap-button::before {
+    position: absolute;
+
+    inset: 1px;
+
+    content: "";
+
+    border-radius: 15px;
+
+    background: radial-gradient(
+        circle at 50% 34%,
+        rgba(255, 255, 255, 0.19),
+        rgba(255, 255, 255, 0.06) 34%,
+        transparent 67%
+    );
+
+    pointer-events: none;
+}
+
+.tap-button::after {
+    position: absolute;
+
+    inset: 0;
+
+    content: "";
+
+    border-radius: 16px;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+        inset 0 -12px 24px rgba(30, 43, 8, 0.08);
+
+    pointer-events: none;
+}
+
+.tap-button:hover {
+    filter: brightness(1.035);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.38),
+        inset 0 -3px 8px rgba(45, 62, 10, 0.21),
+        0 9px 21px rgba(0, 0, 0, 0.27),
+        0 0 25px var(--accent-glow-medium);
+}
+
+.tap-button:active {
+    transform: translateY(2px) scale(0.985);
+
+    filter: brightness(0.96);
+
+    box-shadow:
+        inset 0 3px 8px rgba(45, 62, 10, 0.26),
+        inset 0 -1px 3px rgba(255, 255, 255, 0.11),
+        0 3px 8px rgba(0, 0, 0, 0.26),
+        0 0 14px var(--accent-glow-medium);
+}
+
+/* =========================================================
+   TAP VALUE
+   ========================================================= */
+
+.tap-button__value {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #222718;
+
+    font-size: 31px;
+    font-weight: 590;
+
+    line-height: 1;
+
+    letter-spacing: 0.015em;
+
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+}
+
+/* =========================================================
+   TAP KEY (main tonality)
+   ========================================================= */
+
+.tap-button__key {
+    position: absolute;
+
+    bottom: 34px;
+    left: 50%;
+
+    z-index: 2;
+
+    width: calc(100% - 20px);
+
+    color: rgba(36, 41, 26, 0.56);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: 0.045em;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    transform: translateX(-50%);
+}
+
+/* =========================================================
+   ALTERNATIVE KEYS (conflict)
+   ========================================================= */
+
+.tap-button__alts {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    z-index: 2;
+    width: calc(100% - 16px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.tap-button__alts:not([hidden]) {
+    display: flex;
+}
+
+.tap-button__alts-title {
+    color: rgba(36, 41, 26, 0.38);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.tap-button__alts-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    width: 100%;
+}
+
+.tap-button__alt {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    color: rgba(36, 41, 26, 0.48);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    text-align: center;
+}
+
+.tap-button__alt-strength {
+    flex-shrink: 0;
+
+    color: rgba(36, 41, 26, 0.4);
+
+    font-size: 10px;
+    font-weight: 540;
+
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------
+   When alternatives are visible — shift main content up
+   --------------------------------------------------------- */
+
+.tap-button.tap-button--has-alts .tap-button__confidence {
+    top: 18px;
+}
+
+.tap-button.tap-button--has-alts .tap-button__value {
+    transform: translateY(-14px);
+}
+
+.tap-button.tap-button--has-alts .tap-button__key {
+    bottom: 52px;
+}
+
+/* =========================================================
+   TAP HISTORY
+   ========================================================= */
+
+.tap-history {
+    position: relative;
+
+    width: 100%;
+    height: 37px;
+
+    margin-top: 12px;
+
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   Subtle dashed guide
+   --------------------------------------------------------- */
+
+.tap-history::before {
+    position: absolute;
+
+    top: 50%;
+    left: 6px;
+    right: 6px;
+
+    height: 1px;
+
+    content: "";
+
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.075) 0 3px,
+        transparent 3px 8px
+    );
+
+    opacity: 0.6;
+
+    transform: translateY(-50%);
+}
+
+/* =========================================================
+   TAP POINT
+   ========================================================= */
+
+.tap-point {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: rgba(242, 245, 236, 0.95);
+
+    box-shadow:
+        0 0 5px rgba(242, 245, 236, 0.18),
+        0 1px 2px rgba(0, 0, 0, 0.25);
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+
+    animation: tap-point-in 160ms ease-out both;
+}
+
+@keyframes tap-point-in {
+    0% {
+        opacity: 0;
+
+        transform: translate(-50%, -50%) scale(0.55);
+    }
+
+    55% {
+        opacity: 1;
+
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* =========================================================
+   TAP CONNECTOR
+   ========================================================= */
+
+.tap-connector {
+    position: absolute;
+
+    height: 1px;
+
+    background: rgba(242, 245, 236, 0.1);
+
+    transform-origin: left center;
+
+    z-index: 1;
+}
+
+/* =========================================================
+   AVERAGE BPM
+   ========================================================= */
+
+.average {
+    width: 100%;
+
+    min-height: 19px;
+
+    margin-top: 3px;
+
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    color: var(--text-secondary);
+
+    font-size: 15px;
+
+    line-height: 1;
+
+    letter-spacing: 0.012em;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.average__label {
+    color: var(--text-secondary);
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.average__value {
+    margin-left: 4px;
+    color: rgba(240, 242, 236, 0.56);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   BOTTOM ACTIONS
+   ========================================================= */
+
+.bottom-actions {
+    width: 100%;
+
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+}
+
+/* =========================================================
+   ANALYZE FILE BUTTON
+   ========================================================= */
+
+.analyze-button {
+    padding: 5px 12px;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: rgba(200, 233, 87, 0.78);
+
+    font-size: 10px;
+    font-weight: 580;
+
+    line-height: 1;
+
+    letter-spacing: 0.1em;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        transform var(--transition-fast),
+        text-shadow var(--transition-fast);
+}
+
+.analyze-button:hover {
+    color: var(--accent-light);
+
+    background: rgba(200, 233, 87, 0.055);
+
+    text-shadow: 0 0 7px rgba(200, 233, 87, 0.2);
+}
+
+.analyze-button:active {
+    color: var(--accent-light);
+
+    background: rgba(200, 233, 87, 0.08);
+
+    transform: translateY(1px);
+
+    text-shadow: 0 0 8px rgba(200, 233, 87, 0.24);
+}
+
+.analyze-button:disabled {
+    cursor: default;
+
+    opacity: 0.48;
+
+    text-shadow: none;
+}
+
+/* =========================================================
+   RESET BUTTON
+   ========================================================= */
+
+.reset-button {
+    padding: 5px 12px;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: rgba(240, 242, 236, 0.38);
+
+    font-size: 10px;
+    font-weight: 580;
+
+    line-height: 1;
+
+    letter-spacing: 0.1em;
+
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.reset-button:hover {
+    color: rgba(240, 242, 236, 0.68);
+
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.reset-button:active {
+    color: rgba(240, 242, 236, 0.5);
+
+    background: rgba(255, 255, 255, 0.055);
+
+    transform: translateY(1px);
+}
+
+/* =========================================================
+   SETTINGS SIDE
+   ========================================================= */
+
+.settings-content {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 11px 15px 10px;
+}
+
+/* =========================================================
+   SETTINGS HEADER
+   ========================================================= */
+
+.settings-content__header {
+    width: 100%;
+
+    margin-bottom: 9px;
+
+    color: rgba(240, 242, 236, 0.84);
+
+    font-size: 12px;
+    font-weight: 620;
+
+    line-height: 1;
+
+    letter-spacing: 0.1em;
+
+    text-align: center;
+}
+
+/* =========================================================
+   SETTINGS ROWS
+   ========================================================= */
+
+.setting-row {
+    position: relative;
+
+    width: 100%;
+    min-height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: none;
+}
+
+.setting-row__label {
+    color: rgba(240, 242, 236, 0.5);
+
+    font-size: 10.5px;
+    font-weight: 480;
+
+    line-height: 1.15;
+
+    letter-spacing: 0.01em;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   SETTING CONTROL BASE
+   ========================================================= */
+
+.setting-control {
+    position: relative;
+
+    min-width: 43px;
+    min-height: 22px;
+
+    padding: 4px 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: rgba(240, 242, 236, 0.7);
+
+    font-size: 9.5px;
+    font-weight: 570;
+
+    line-height: 1;
+
+    letter-spacing: 0.045em;
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.setting-control:hover {
+    background: rgba(255, 255, 255, 0.055);
+
+    border-color: rgba(255, 255, 255, 0.1);
+
+    color: rgba(240, 242, 236, 0.86);
+}
+
+.setting-control:active,
+.setting-control.is-open {
+    background: rgba(255, 255, 255, 0.075);
+
+    border-color: rgba(200, 233, 87, 0.2);
+
+    box-shadow: 0 0 8px rgba(200, 233, 87, 0.06);
+}
+
+/* =========================================================
+   TAP KEY / GLOBAL TAP KEY CONTROL
+   ========================================================= */
+
+#tapKeyControl,
+#globalTapKeyControl {
+    min-width: 49px;
+
+    text-transform: uppercase;
+}
+
+#tapKeyControl.is-listening,
+#globalTapKeyControl.is-listening {
+    min-width: 83px;
+
+    border-color: rgba(200, 233, 87, 0.3);
+
+    background: rgba(200, 233, 87, 0.08);
+
+    color: var(--accent-light);
+
+    animation: listening-pulse 900ms ease-in-out infinite;
+}
+
+@keyframes listening-pulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 rgba(200, 233, 87, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 12px rgba(200, 233, 87, 0.12);
+    }
+}
+
+#tapKeyControl.is-error,
+#globalTapKeyControl.is-error,
+#tapKeyControl.is-listening.is-error,
+#globalTapKeyControl.is-listening.is-error {
+    animation: none;
+
+    border-color: rgba(255, 80, 80, 0.85);
+
+    background: rgba(255, 60, 60, 0.14);
+
+    color: #ffb0b0;
+
+    box-shadow: 0 0 0 1px rgba(255, 80, 80, 0.35);
+}
+
+/* =========================================================
+   DROPDOWN CONTROL
+   ========================================================= */
+
+.setting-dropdown {
+    padding-right: 21px;
+
+    user-select: none;
+}
+
+/* ---------------------------------------------------------
+   Dropdown arrow
+   --------------------------------------------------------- */
+
+.dropdown-arrow {
+    position: absolute;
+
+    top: 50%;
+    right: 7px;
+
+    width: 5px;
+    height: 5px;
+
+    border-right: 1px solid rgba(240, 242, 236, 0.48);
+    border-bottom: 1px solid rgba(240, 242, 236, 0.48);
+
+    transform: translateY(-65%) rotate(45deg);
+
+    transition: transform var(--transition-fast);
+}
+
+.setting-dropdown.is-open .dropdown-arrow {
+    transform: translateY(-25%) rotate(225deg);
+}
+
+/* =========================================================
+   DROPDOWN MENU
+   ========================================================= */
+
+.dropdown-menu {
+    position: absolute;
+
+    top: calc(100% + 4px);
+    right: -1px;
+
+    z-index: 50;
+
+    width: 88px;
+
+    padding: 3px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 6px;
+
+    background: linear-gradient(180deg, #25292b 0%, #1b1e20 100%);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.42),
+        0 2px 7px rgba(0, 0, 0, 0.28);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(-3px) scale(0.98);
+
+    transform-origin: top right;
+
+    transition:
+        opacity 110ms ease,
+        visibility 110ms ease,
+        transform 110ms ease;
+}
+
+.setting-dropdown.is-open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateY(0) scale(1);
+}
+
+/* =========================================================
+   DROPDOWN OPTION
+   ========================================================= */
+
+.dropdown-option {
+    width: 100%;
+    min-height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 0 7px;
+
+    border-radius: 4px;
+
+    background: transparent;
+
+    color: rgba(240, 242, 236, 0.52);
+
+    font-size: 9.5px;
+    font-weight: 520;
+
+    line-height: 1;
+
+    letter-spacing: 0.025em;
+
+    text-align: left;
+
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.dropdown-option:hover {
+    background: rgba(255, 255, 255, 0.055);
+
+    color: rgba(240, 242, 236, 0.86);
+}
+
+.dropdown-option.is-selected {
+    color: var(--accent-light);
+
+    background: rgba(200, 233, 87, 0.075);
+}
+
+.dropdown-option.is-selected::after {
+    margin-left: auto;
+
+    content: "✓";
+
+    color: var(--accent-primary);
+
+    font-size: 9.5px;
+}
+
+/* =========================================================
+   LANGUAGE ROW
+   ========================================================= */
+
+.setting-row--language {
+    min-height: 31px;
+}
+
+/* =========================================================
+   LANGUAGE SWITCHER
+   ========================================================= */
+
+.language-switcher {
+    min-width: auto;
+
+    width: auto;
+
+    padding: 2px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 2px;
+
+    border: 0;
+
+    background: transparent;
+
+    box-shadow: none;
+}
+
+/* ---------------------------------------------------------
+   Language buttons
+   --------------------------------------------------------- */
+
+.language-button {
+    flex: 0 0 25px;
+
+    width: 25px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: rgba(240, 242, 236, 0.42);
+
+    font-size: 9.5px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    letter-spacing: 0.03em;
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.language-button:hover {
+    background: rgba(255, 255, 255, 0.055);
+
+    border-color: rgba(255, 255, 255, 0.1);
+
+    color: rgba(240, 242, 236, 0.78);
+}
+
+.language-button.is-active {
+    background: var(--accent-primary);
+
+    border-color: rgba(231, 255, 154, 0.28);
+
+    color: #20251a;
+
+    box-shadow: 0 0 8px rgba(200, 233, 87, 0.13);
+}
+
+/* =========================================================
+   SETTINGS FOOTER DIVIDER
+   ========================================================= */
+
+.settings-divider {
+    width: 100%;
+    height: 1px;
+
+    margin-top: auto;
+    margin-bottom: 9px;
+
+    background: var(--border-footer);
+
+    opacity: 0.8;
+}
+
+/* =========================================================
+   SETTINGS ABOUT
+   ========================================================= */
+
+.settings-about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+/* ---------------------------------------------------------
+   WM Tapper
+   --------------------------------------------------------- */
+
+.settings-about__brand {
+    color: rgba(240, 242, 236, 0.74);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    line-height: 1;
+}
+
+/* ---------------------------------------------------------
+   Made by
+   --------------------------------------------------------- */
+
+.settings-about__text {
+    margin-top: 4px;
+
+    color: rgba(240, 242, 236, 0.34);
+
+    font-size: 9px;
+    font-weight: 450;
+
+    line-height: 1;
+}
+
+/* ---------------------------------------------------------
+   GitHub link
+   --------------------------------------------------------- */
+
+.settings-about__link {
+    margin-top: 8px;
+
+    color: rgba(200, 233, 87, 0.48);
+
+    font-size: 8.5px;
+    font-weight: 470;
+
+    line-height: 1;
+
+    letter-spacing: 0.01em;
+
+    text-decoration: none;
+
+    transition: color var(--transition-fast);
+}
+
+.settings-about__link:hover {
+    color: rgba(200, 233, 87, 0.78);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =========================================================
+   AUDIO ANALYSIS PANEL
+   ========================================================= */
+
+.app-window {
+    position: relative;
+}
+
+/* ---------------------------------------------------------
+   Panel
+   --------------------------------------------------------- */
+.analysis-panel {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 50%;
+    width: calc(100% - 24px);
+    height: 170px;
+    z-index: 100;
+    padding: 10px 9px 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(180deg, #202426 0%, #181b1d 100%);
+    box-shadow:
+        0 14px 30px rgba(0, 0, 0, 0.42),
+        0 4px 10px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.018);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-8px) scaleY(0.92);
+    transform-origin: top center;
+    transition:
+        opacity 180ms ease,
+        visibility 180ms ease,
+        transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.app-window.analysis-panel-open {
+    overflow: visible;
+}
+
+.app-window.analysis-panel-open .analysis-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scaleY(1);
+}
+
+/* =========================================================
+   WAVEFORM
+   ========================================================= */
+
+.analysis-waveform {
+    position: relative;
+
+    width: 100%;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.045);
+    border-radius: 5px;
+
+    background: #141619;
+}
+
+/* ---------------------------------------------------------
+   Waveform Canvas
+   --------------------------------------------------------- */
+
+.analysis-waveform__canvas {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    pointer-events: none;
+
+    color: rgba(222, 238, 176, 0.66);
+}
+
+/* =========================================================
+   RANGE OVERLAYS
+   ========================================================= */
+
+.analysis-range-overlay {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    background: rgba(8, 10, 11, 0.68);
+
+    pointer-events: none;
+
+    transition:
+        left 70ms ease,
+        width 70ms ease;
+}
+
+.analysis-range-overlay--left {
+    left: 0;
+
+    width: 0;
+}
+
+.analysis-range-overlay--right {
+    right: 0;
+
+    width: 0;
+}
+
+/* =========================================================
+   ACTIVE SELECTION
+   ========================================================= */
+
+.analysis-selection {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 0;
+    width: 100%;
+
+    border-top: 1px solid rgba(200, 233, 87, 0.1);
+    border-bottom: 1px solid rgba(200, 233, 87, 0.08);
+
+    background: rgba(200, 233, 87, 0.025);
+
+    pointer-events: none;
+
+    transition:
+        left 70ms ease,
+        width 70ms ease;
+}
+
+/* =========================================================
+   RANGE HANDLES
+   ========================================================= */
+
+.analysis-handle {
+    position: absolute;
+
+    top: -1px;
+
+    width: 17px;
+    height: calc(100% + 2px);
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    z-index: 5;
+
+    cursor: ew-resize;
+
+    touch-action: none;
+
+    transform: translateX(-50%);
+}
+
+.analysis-handle span {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 50%;
+
+    width: 5px;
+
+    background: var(--accent-primary);
+
+    box-shadow: 0 0 7px rgba(200, 233, 87, 0.3);
+
+    transform: translateX(-50%);
+
+    transition:
+        width var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+/* ---------------------------------------------------------
+   Hover / active
+   --------------------------------------------------------- */
+
+.analysis-handle:hover span {
+    width: 5px;
+
+    box-shadow: 0 0 10px rgba(200, 233, 87, 0.45);
+}
+
+.analysis-handle:active span {
+    width: 3px;
+
+    box-shadow: 0 0 12px rgba(200, 233, 87, 0.55);
+}
+
+.analysis-handle:hover::before,
+.analysis-handle:hover::after {
+    filter: drop-shadow(0 0 5px rgba(200, 233, 87, 0.35));
+}
+
+.analysis-handle--start {
+    left: 0;
+}
+
+.analysis-handle--end {
+    left: calc(100% - 1px);
+}
+
+/* ---------------------------------------------------------
+   Fast mode handle state
+   --------------------------------------------------------- */
+
+.analysis-panel.analysis-panel--fast .analysis-handle {
+    opacity: 0.34;
+
+    cursor: default;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   TIME RANGE
+   ========================================================= */
+
+.analysis-time {
+    width: 100%;
+
+    margin-top: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(240, 242, 236, 0.48);
+
+    font-size: 10px;
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: 0.035em;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.analysis-time__separator {
+    margin: 0 5px;
+
+    color: rgba(240, 242, 236, 0.22);
+}
+
+/* =========================================================
+   MODE DROPDOWN
+   ========================================================= */
+
+.analysis-mode {
+    position: relative;
+
+    width: 125px;
+
+    margin-top: 7px;
+}
+
+.analysis-mode__control {
+    position: relative;
+
+    width: 100%;
+    height: 21px;
+
+    padding: 0 19px 0 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: rgba(240, 242, 236, 0.67);
+
+    font-size: 9.5px;
+    font-weight: 570;
+
+    line-height: 1;
+
+    letter-spacing: 0.06em;
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.analysis-mode__control:hover,
+.analysis-mode.is-open .analysis-mode__control {
+    background: rgba(255, 255, 255, 0.055);
+
+    border-color: rgba(255, 255, 255, 0.095);
+
+    color: rgba(240, 242, 236, 0.84);
+}
+
+.analysis-mode__arrow {
+    position: absolute;
+
+    top: 50%;
+    right: 7px;
+
+    width: 5px;
+    height: 5px;
+
+    border-right: 1px solid rgba(240, 242, 236, 0.44);
+    border-bottom: 1px solid rgba(240, 242, 236, 0.44);
+
+    transform: translateY(-65%) rotate(45deg);
+
+    transition: transform var(--transition-fast);
+}
+
+.analysis-mode.is-open .analysis-mode__arrow {
+    transform: translateY(-25%) rotate(225deg);
+}
+
+/* ---------------------------------------------------------
+   Mode menu
+   --------------------------------------------------------- */
+
+.analysis-mode__menu {
+    position: absolute;
+
+    bottom: calc(100% + 3px);
+    left: 0;
+    right: 0;
+
+    z-index: 20;
+
+    padding: 3px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 5px;
+
+    background: linear-gradient(180deg, #25292b 0%, #1b1e20 100%);
+
+    box-shadow:
+        0 9px 19px rgba(0, 0, 0, 0.4),
+        0 2px 7px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(3px) scale(0.98);
+
+    transform-origin: bottom center;
+
+    transition:
+        opacity 100ms ease,
+        visibility 100ms ease,
+        transform 100ms ease;
+}
+
+.analysis-mode.is-open .analysis-mode__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateY(0) scale(1);
+}
+
+/* ---------------------------------------------------------
+   Mode option
+   --------------------------------------------------------- */
+
+.analysis-mode__option {
+    width: 100%;
+    min-height: 19px;
+
+    padding: 0 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 3px;
+
+    background: transparent;
+
+    color: rgba(240, 242, 236, 0.52);
+
+    font-size: 9.5px;
+    font-weight: 520;
+
+    line-height: 1;
+
+    letter-spacing: 0.045em;
+
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.analysis-mode__option:hover {
+    background: rgba(255, 255, 255, 0.055);
+
+    color: rgba(240, 242, 236, 0.86);
+}
+
+.analysis-mode__option.is-selected {
+    color: var(--accent-light);
+
+    background: rgba(200, 233, 87, 0.075);
+}
+
+/* =========================================================
+   GENRE DROPDOWN
+   ========================================================= */
+
+.analysis-genre {
+    position: relative;
+
+    width: 125px;
+
+    margin-top: 6px;
+}
+
+/* ---------------------------------------------------------
+   Genre control
+   --------------------------------------------------------- */
+
+.analysis-genre__control {
+    position: relative;
+
+    width: 100%;
+    height: 21px;
+
+    padding: 0 19px 0 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 4px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    color: rgba(240, 242, 236, 0.67);
+
+    font-size: 9.5px;
+    font-weight: 570;
+
+    line-height: 1;
+
+    letter-spacing: 0.06em;
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.analysis-genre__control:hover,
+.analysis-genre.is-open .analysis-genre__control {
+    background: rgba(255, 255, 255, 0.055);
+
+    border-color: rgba(255, 255, 255, 0.095);
+
+    color: rgba(240, 242, 236, 0.84);
+}
+
+/* ---------------------------------------------------------
+   Genre arrow
+   --------------------------------------------------------- */
+
+.analysis-genre__arrow {
+    position: absolute;
+
+    top: 50%;
+    right: 7px;
+
+    width: 5px;
+    height: 5px;
+
+    border-right: 1px solid rgba(240, 242, 236, 0.44);
+    border-bottom: 1px solid rgba(240, 242, 236, 0.44);
+
+    transform: translateY(-25%) rotate(225deg);
+
+    transition: transform var(--transition-fast);
+}
+
+.analysis-genre.is-open .analysis-genre__arrow {
+    transform: translateY(-65%) rotate(45deg);
+}
+
+/* ---------------------------------------------------------
+   Genre menu
+   --------------------------------------------------------- */
+
+.analysis-genre__menu {
+    position: absolute;
+
+    bottom: calc(100% + 3px);
+    left: 0;
+    right: 0;
+
+    z-index: 20;
+
+    max-height: 300px;
+
+    overflow-y: auto;
+
+    padding: 3px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 5px;
+
+    background: linear-gradient(180deg, #25292b 0%, #1b1e20 100%);
+
+    box-shadow:
+        0 9px 19px rgba(0, 0, 0, 0.4),
+        0 2px 7px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(3px) scale(0.98);
+
+    transform-origin: bottom center;
+
+    transition:
+        opacity 100ms ease,
+        visibility 100ms ease,
+        transform 100ms ease;
+
+    scrollbar-width: thin;
+}
+
+.analysis-genre.is-open .analysis-genre__menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateY(0) scale(1);
+}
+
+/* ---------------------------------------------------------
+   Genre option
+   --------------------------------------------------------- */
+
+.analysis-genre__option {
+    width: 100%;
+    min-height: 19px;
+
+    flex-shrink: 0;
+
+    padding: 0 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 3px;
+
+    background: transparent;
+
+    color: rgba(240, 242, 236, 0.52);
+
+    font-size: 9.5px;
+    font-weight: 520;
+
+    line-height: 1;
+
+    letter-spacing: 0.035em;
+
+    white-space: nowrap;
+
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.analysis-genre__option:hover {
+    background: rgba(255, 255, 255, 0.055);
+
+    color: rgba(240, 242, 236, 0.86);
+}
+
+.analysis-genre__option.is-selected {
+    color: var(--accent-light);
+
+    background: rgba(200, 233, 87, 0.075);
+}
+
+/* =========================================================
+   ANALYSIS RUN BUTTON
+   ========================================================= */
+
+.analysis-run-button {
+    width: 100%;
+    height: 24px;
+
+    margin-top: 7px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(200, 233, 87, 0.16);
+    border-radius: 5px;
+
+    background: linear-gradient(
+        180deg,
+        rgba(200, 233, 87, 0.105),
+        rgba(200, 233, 87, 0.055)
+    );
+
+    color: rgba(200, 233, 87, 0.82);
+
+    font-size: 10px;
+    font-weight: 620;
+
+    line-height: 1;
+
+    letter-spacing: 0.11em;
+
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.analysis-run-button:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(200, 233, 87, 0.15),
+        rgba(200, 233, 87, 0.075)
+    );
+
+    border-color: rgba(200, 233, 87, 0.25);
+
+    color: var(--accent-light);
+
+    box-shadow: 0 0 12px rgba(200, 233, 87, 0.07);
+}
+
+.analysis-run-button:active {
+    transform: translateY(1px);
+
+    background: linear-gradient(
+        180deg,
+        rgba(200, 233, 87, 0.1),
+        rgba(200, 233, 87, 0.05)
+    );
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .analysis-panel,
+    .analysis-mode__menu,
+    .analysis-waveform,
+    .analysis-selection,
+    .analysis-range-overlay {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =========================================================
+   ANALYSIS BUSY STATE
+   ========================================================= */
+
+.analysis-busy-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 200;
+    border-radius: 12px;
+    background: rgba(8, 10, 11, 0.34);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 140ms ease,
+        visibility 140ms ease;
+}
+
+.analysis-busy-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+.app-window.analysis-panel-open .analysis-busy-overlay.is-visible {
+    top: 38px;
+    height: calc(100% - 38px);
+    border-radius: 0;
+}
+
+/* =========================================================
+   ANALYSIS PANEL BUSY OVERLAY
+   ========================================================= */
+
+.analysis-panel::before {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 250;
+
+    content: "";
+
+    border-radius: 0 0 10px 10px;
+
+    background: rgba(8, 10, 11, 0.36);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 140ms ease,
+        visibility 140ms ease;
+}
+
+.analysis-panel.analysis-panel--busy::before {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+/* =========================================================
+   ANALYSIS BUTTON
+   ========================================================= */
+
+.analysis-run-button {
+    position: relative;
+
+    z-index: 301;
+}
+
+.analysis-run-button.is-analyzing {
+    cursor: default;
+
+    animation: analysis-button-pulse 1.45s ease-in-out infinite;
+
+    background: linear-gradient(
+        180deg,
+        rgba(200, 233, 87, 0.19),
+        rgba(200, 233, 87, 0.085)
+    );
+
+    border-color: rgba(200, 233, 87, 0.34);
+
+    color: var(--accent-light);
+
+    box-shadow: 0 0 13px rgba(200, 233, 87, 0.1);
+}
+
+.analysis-run-button.is-analyzing:hover,
+.analysis-run-button.is-analyzing:active {
+    background: linear-gradient(
+        180deg,
+        rgba(200, 233, 87, 0.19),
+        rgba(200, 233, 87, 0.085)
+    );
+
+    transform: none;
+}
+
+@keyframes analysis-button-pulse {
+    0%,
+    100% {
+        opacity: 0.68;
+
+        transform: scale(0.985);
+
+        box-shadow: 0 0 7px rgba(200, 233, 87, 0.05);
+    }
+
+    50% {
+        opacity: 1;
+
+        transform: scale(1);
+
+        box-shadow: 0 0 17px rgba(200, 233, 87, 0.16);
+    }
+}
+
+.analysis-run-button.is-analyzing {
+    letter-spacing: 0.08em;
+}
+
+.analysis-run-button.is-analyzing::after {
+    content: "";
+}
+
+/* =========================================================
+   ANALYSIS RESULT
+   ========================================================= */
+
+.tap-button__confidence {
+    position: absolute;
+
+    top: 35px;
+    left: 50%;
+
+    z-index: 2;
+
+    width: calc(100% - 20px);
+
+    color: rgba(36, 41, 26, 0.54);
+
+    font-size: 11px;
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: 0.075em;
+
+    text-align: center;
+
+    transform: translateX(-50%);
+}
+
+/* =========================================================
+   PIN (Always on top) — Tauri only
+   ========================================================= */
+
+.window-control--pin {
+    display: none;
+}
+
+html.is-tauri .window-control--pin {
+    display: inline-flex;
+}
+
+html.is-tauri .window-control--pin .settings-icon {
+    opacity: 0.75;
+    transform: rotate(35deg);
+    transition:
+        opacity var(--transition-fast),
+        transform 180ms ease,
+        filter var(--transition-fast);
+}
+
+html.is-tauri .window-control--pin.is-active {
+    opacity: 1;
+}
+
+html.is-tauri .window-control--pin.is-active .settings-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+    filter: brightness(0) invert(1);
+}
+
+/* =========================================================
+   MOBILE (web only - not Tauri)
+   ========================================================= */
+@media (max-width: 768px) {
+    html:not(.is-tauri),
+    html:not(.is-tauri) body {
+        width: 100%;
+        min-height: 100%;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    html:not(.is-tauri) body {
+        display: block;
+        padding: 0;
+        background: var(--background-window-bottom);
+    }
+
+    html:not(.is-tauri) .app-window {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100dvh;
+        min-height: 100svh;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        box-shadow: none;
+    }
+
+    html:not(.is-tauri) .flip-container {
+        flex: 0 0 auto;
+        position: relative;
+        min-height: 0;
+        height: auto;
+        overflow: hidden;
+    }
+
+    /* front side in flow → gives height to the card */
+    html:not(.is-tauri) .flip-card {
+        position: relative;
+        height: auto;
+    }
+
+    html:not(.is-tauri) .flip-side--front {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: auto;
+    }
+
+    /* back (settings) stays overlay when flipped */
+    html:not(.is-tauri) .flip-side--back {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    html:not(.is-tauri) .app-content {
+        padding: 14px 14px 12px;
+        height: auto;
+        min-height: 0;
+    }
+
+    html:not(.is-tauri) .tap-button {
+        height: clamp(150px, 42vw, 200px);
+        flex-shrink: 0;
+    }
+
+    /* history dots — same as desktop */
+    html:not(.is-tauri) .tap-history {
+        display: block;
+        width: 100%;
+        height: 37px;
+        min-height: 37px;
+        margin-top: 12px;
+        flex-shrink: 0;
+        overflow: hidden;
+    }
+
+    html:not(.is-tauri) .average {
+        margin-top: 6px;
+        flex-shrink: 0;
+    }
+
+    /* normal gap, do not pin buttons to bottom of the screen */
+    html:not(.is-tauri) .bottom-actions {
+        margin-top: 14px;
+        flex-shrink: 0;
+    }
+
+    /*
+     * Shelf always in document flow under the card.
+     * position: static — ignores desktop absolute/top/transform.
+     */
+    html:not(.is-tauri) .analysis-panel {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+        max-height: 0;
+        overflow: hidden;
+        z-index: 30;
+        align-items: stretch;
+    }
+
+    html:not(.is-tauri) .app-window.analysis-panel-open {
+        overflow: visible;
+        min-height: auto;
+        height: auto;
+    }
+
+    html:not(.is-tauri) .app-window.analysis-panel-open .analysis-panel {
+        position: static;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        width: 100%;
+        height: auto;
+        transform: none;
+        max-height: 420px;
+        padding: 10px 12px 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.055);
+        overflow: visible;
+    }
+
+    html:not(.is-tauri) .analysis-waveform {
+        width: 100%;
+    }
+
+    html:not(.is-tauri) .analysis-mode,
+    html:not(.is-tauri) .analysis-genre {
+        width: 100%;
+        max-width: 220px;
+        align-self: center;
+    }
+
+    html:not(.is-tauri) .analysis-run-button {
+        width: 100%;
+    }
+
+    html:not(.is-tauri) .analysis-mode__menu,
+    html:not(.is-tauri) .analysis-genre__menu {
+        z-index: 400;
+    }
+
+    html:not(.is-tauri) .analysis-busy-overlay {
+        border-radius: 0;
+    }
+
+    html:not(.is-tauri)
+        .app-window.analysis-panel-open
+        .analysis-busy-overlay.is-visible {
+        top: 38px;
+        height: calc(100% - 38px);
+        border-radius: 0;
+    }
+}
+
+/* =========================================================
+   DESKTOP DOWNLOAD BANNER (web desktop only)
+   ========================================================= */
+
+.desktop-download-banner {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: auto;
+    max-width: 250px;
+    min-height: 28px;
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #1d2022 0%, #171a1c 100%);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+}
+
+.desktop-download-banner__text {
+    color: rgba(240, 242, 236, 0.62);
+    font-size: 10px;
+    font-weight: 520;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+}
+
+.desktop-download-banner__link {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(200, 233, 87, 0.1);
+    border: 1px solid rgba(200, 233, 87, 0.2);
+    color: var(--accent-light);
+    font-size: 9.5px;
+    font-weight: 620;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.desktop-download-banner__link:hover {
+    background: rgba(200, 233, 87, 0.16);
+    border-color: rgba(200, 233, 87, 0.32);
+    color: #f2ffb0;
+}
+
+/* show only: desktop width + not Tauri */
+@media (min-width: 769px) {
+    html:not(.is-tauri) body {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    html:not(.is-tauri) .desktop-download-banner:not([hidden]) {
+        display: flex;
+    }
+}
+
+/* never on mobile */
+@media (max-width: 768px) {
+    .desktop-download-banner {
+        display: none !important;
+    }
+}
+
+/* never in Tauri */
+html.is-tauri .desktop-download-banner {
+    display: none !important;
+}
+
+/* =========================================================
+   GLOBAL TAP KEY ROW — Tauri only
+   ========================================================= */
+
+.setting-row--global-key {
+    display: none;
+}
+
+html.is-tauri .setting-row--global-key {
+    display: flex;
+}
