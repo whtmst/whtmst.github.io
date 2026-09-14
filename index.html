@@ -133,7 +133,11 @@
                 </section>
 
                 <!-- WM TAGGER -->
-                <section class="module" data-module="tagger">
+                <section
+                    class="module"
+                    data-module="tagger"
+                    data-app-src="./tagger/"
+                >
                     <div class="module__row">
                         <span
                             class="module__status"
@@ -148,12 +152,23 @@
                         </p>
                         <div class="module__actions">
                             <button
-                                class="module__btn module__btn--disabled"
+                                class="module__btn"
                                 type="button"
-                                disabled
+                                data-action="open"
                             >
                                 Open
                             </button>
+                        </div>
+                    </div>
+
+                    <div class="module__panel module__panel--app">
+                        <div class="module__frame-wrap">
+                            <iframe
+                                class="module__frame"
+                                title="WM Tagger"
+                                loading="lazy"
+                                referrerpolicy="no-referrer"
+                            ></iframe>
                         </div>
                     </div>
                 </section>
