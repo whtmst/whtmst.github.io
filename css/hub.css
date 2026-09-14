@@ -334,9 +334,11 @@ button {
 .module__frame {
     display: block;
     width: 100%;
-    height: 320px;
+    height: 300px;
     border: 0;
     background: #151719;
+    overflow: hidden;
+    vertical-align: top;
 }
 
 .module__downloads {
@@ -510,7 +512,7 @@ button {
     }
 
     .module__frame {
-        height: 420px;
+        height: 300px;
     }
 
     .rack__footer {
