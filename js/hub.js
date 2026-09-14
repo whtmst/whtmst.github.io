@@ -52,9 +52,27 @@
         const frame = module.querySelector(".module__frame");
         const src = module.dataset.appSrc;
 
-        if (frame && src && frame.dataset.loaded !== "true") {
-            frame.src = src;
-            frame.dataset.loaded = "true";
+        if (frame && src) {
+            frame.classList.remove("is-ready");
+
+            if (frame.dataset.loaded !== "true") {
+                frame.src = src;
+                frame.dataset.loaded = "true";
+            } else {
+                /* already loaded — ask for height again */
+                try {
+                    frame.contentWindow.postMessage(
+                        { type: "wm-tool-request-height" },
+                        "*",
+                    );
+                } catch (error) {
+                    /* ignore */
+                }
+
+                window.setTimeout(() => {
+                    frame.classList.add("is-ready");
+                }, 50);
+            }
         }
     }
 
@@ -138,6 +156,7 @@
 
             if (frame && frame.contentWindow === event.source) {
                 frame.style.height = `${Math.ceil(height)}px`;
+                frame.classList.add("is-ready");
             }
         });
     });
