@@ -2640,3 +2640,30 @@ html.is-tauri .desktop-download-banner {
 html.is-tauri .setting-row--global-key {
     display: flex;
 }
+
+/* =========================================================
+   EMBED IN HUB (iframe)
+   ========================================================= */
+
+html.is-embed,
+html.is-embed body {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    background: transparent;
+}
+
+html.is-embed body {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+html.is-embed .app-window {
+    margin: 0 auto;
+}
+
+html.is-embed .desktop-download-banner:not([hidden]) {
+    margin: 0 auto 12px;
+}
