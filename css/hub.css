@@ -342,6 +342,8 @@ button {
 .module__downloads {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -451,8 +453,9 @@ button {
     }
 
     .module__row {
+        display: flex;
         flex-wrap: wrap;
-        align-items: flex-start;
+        align-items: center;
         gap: 12px;
         min-height: 0;
         padding: 12px;
@@ -461,13 +464,13 @@ button {
     .module__status {
         width: 8px;
         height: 8px;
-        margin-top: 4px;
+        margin-top: 0;
     }
 
     .module__id {
         width: auto;
         flex: 1;
-        min-width: 100px;
+        min-width: 0;
     }
 
     .module__name {
@@ -478,22 +481,32 @@ button {
         font-size: 9px;
     }
 
-    .module__desc {
-        width: 100%;
-        order: 3;
-        font-size: 11px;
-        line-height: 1.35;
+    .module__actions {
+        flex-shrink: 0;
+        margin-left: auto;
     }
 
-    .module__actions {
-        order: 2;
-        margin-left: auto;
+    .module__desc {
+        flex: 0 0 100%;
+        width: 100%;
+        order: 10;
+        font-size: 11px;
+        line-height: 1.35;
     }
 
     .module__btn {
         min-height: 25px;
         padding: 6px 12px;
         font-size: 10px;
+    }
+
+    /* Download only on desktop */
+    .module__btn[data-action="download"] {
+        display: none;
+    }
+
+    .module__panel--download {
+        display: none;
     }
 
     .module__frame {
