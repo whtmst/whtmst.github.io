@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>WHT MST's Hub</title>
+        <meta
+            name="description"
+            content="Simple practical tools by Wht Mst — WM Tapper, WM Tagger and more."
+        />
+        <link rel="stylesheet" href="css/hub.css" />
+    </head>
+    <body>
+        <main class="rack">
+            <header class="rack__header">
+                <div class="rack__brand">
+                    <span class="rack__led" aria-hidden="true"></span>
+                    <span class="rack__title">WHT MST's HUB</span>
+                </div>
+
+                <div class="rack__header-right">
+                    <span class="rack__loc">LOC // AZERBAIJAN.BAKU</span>
+                    <a
+                        class="rack__donate"
+                        href="https://dalink.to/whtmst"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        WANNA HELP? → DONATE
+                    </a>
+                </div>
+            </header>
+
+            <div class="rack__stack">
+                <section class="rack-bio">
+                    <div class="rack-bio__meta">
+                        <div class="rack-bio__label">SYSTEM_BIO</div>
+                        <div class="rack-bio__rev">
+                            REV_1.0.0 // SEPTEMBER_2026
+                        </div>
+                    </div>
+                    <p class="rack-bio__text">
+                        Music producer and indie developer creating simple,
+                        practical tools and devices - built primarily for my own
+                        workflow, but available for anyone to use.
+                    </p>
+                </section>
+
+                <!-- WM TAPPER -->
+                <section
+                    class="module"
+                    data-module="tapper"
+                    data-app-src="./tapper/"
+                >
+                    <div class="module__row">
+                        <span
+                            class="module__status"
+                            aria-hidden="true"
+                        ></span>
+                        <div class="module__id">
+                            <div class="module__name">WM_TAPPER</div>
+                            <div class="module__sys">SYS_ACTIVE</div>
+                        </div>
+                        <p class="module__desc">
+                            Tap-tempo BPM utility with tempo and key analyser.
+                        </p>
+                        <div class="module__actions">
+                            <button
+                                class="module__btn"
+                                type="button"
+                                data-action="open"
+                            >
+                                Open
+                            </button>
+                            <button
+                                class="module__btn"
+                                type="button"
+                                data-action="download"
+                            >
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="module__panel module__panel--app">
+                        <div class="module__frame-wrap">
+                            <iframe
+                                class="module__frame"
+                                title="WM Tapper"
+                                loading="lazy"
+                                referrerpolicy="no-referrer"
+                            ></iframe>
+                        </div>
+                    </div>
+
+                    <div class="module__panel module__panel--download">
+                        <div class="module__downloads">
+                            <a
+                                class="module__dl-btn"
+                                href="https://github.com/whtmst/wm-tapper/releases/latest"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Windows
+                            </a>
+                            <span class="module__dl-btn module__dl-btn--soon">
+                                macOS · Soon
+                            </span>
+                            <span class="module__dl-btn module__dl-btn--soon">
+                                Linux · Soon
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- WM TAGGER -->
+                <section class="module" data-module="tagger">
+                    <div class="module__row">
+                        <span
+                            class="module__status"
+                            aria-hidden="true"
+                        ></span>
+                        <div class="module__id">
+                            <div class="module__name">WM_TAGGER</div>
+                            <div class="module__sys">SYS_ACTIVE</div>
+                        </div>
+                        <p class="module__desc">Browser file tag app.</p>
+                        <div class="module__actions">
+                            <button
+                                class="module__btn module__btn--disabled"
+                                type="button"
+                                disabled
+                            >
+                                Open
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- COMING SOON -->
+                <section class="module" data-module="coming">
+                    <div class="module__row">
+                        <span
+                            class="module__status module__status--wait"
+                            aria-hidden="true"
+                        ></span>
+                        <div class="module__id">
+                            <div class="module__name">WM_COMING_SOON</div>
+                            <div class="module__sys">SYS_WAIT</div>
+                        </div>
+                        <p class="module__desc">Coming soon.</p>
+                        <div class="module__actions">
+                            <button
+                                class="module__btn module__btn--disabled"
+                                type="button"
+                                disabled
+                            >
+                                Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="rack__footer">
+                <div class="rack__links">
+                    <a
+                        class="rack__link"
+                        href="https://github.com/whtmst"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        MY GITHUB
+                    </a>
+                    <a
+                        class="rack__link"
+                        href="https://whtmst.github.io/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        MY MUSIC
+                    </a>
+                </div>
+                <div class="rack__status">ACTIVE_SESSIONS // 100% OK</div>
+            </footer>
+        </main>
+
+        <script src="js/hub.js"></script>
+    </body>
+</html>
