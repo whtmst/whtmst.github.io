@@ -3,6 +3,48 @@ import { buildId3TagBuffer, readTagValue, readCustomTxxxValue, readCommentValue 
 import { calculateLUFS } from './modules/lufs.js';
 import { setupPlayer, togglePlay, seekTo } from './modules/player.js';
 
+/* =========================================================
+   EMBED IN HUB
+   ========================================================= */
+
+const isEmbed = window.parent !== window;
+
+if (isEmbed) {
+  document.documentElement.classList.add("is-embed");
+}
+
+function reportEmbedHeight() {
+  if (!isEmbed) {
+    return;
+  }
+
+  const root = document.querySelector(".container") || document.body;
+  const rect = root.getBoundingClientRect();
+  const height = Math.ceil(Math.max(rect.height, document.body.scrollHeight, 200) + 2);
+
+  window.parent.postMessage(
+    {
+      type: "wm-tool-resize",
+      height,
+    },
+    "*",
+  );
+}
+
+window.reportEmbedHeight = reportEmbedHeight;
+
+window.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "wm-tool-request-height") {
+    reportEmbedHeight();
+  }
+});
+
+if (isEmbed) {
+  window.addEventListener("load", reportEmbedHeight);
+  window.setTimeout(reportEmbedHeight, 100);
+  window.setTimeout(reportEmbedHeight, 400);
+}
+
 let rawAudioBuffer = null;
 let originalFileName = "";
 let isWav = false;
@@ -59,6 +101,10 @@ async function processAudioFile(file) {
 
   form.style.display = "block";
   dropZone.querySelector('label').innerHTML = `Loaded: <strong>${originalFileName}</strong><br>(drag another to replace)`;
+
+  reportEmbedHeight();
+  window.setTimeout(reportEmbedHeight, 50);
+  window.setTimeout(reportEmbedHeight, 200);
 
   const mimeType = isWav ? 'audio/wav' : 'audio/mpeg';
   await setupPlayer(rawAudioBuffer, mimeType);
@@ -125,6 +171,10 @@ async function processAudioFile(file) {
     coverPreview.style.display = "none";
     removeCoverBtn.style.display = "none";
   }
+
+  reportEmbedHeight();
+  window.setTimeout(reportEmbedHeight, 50);
+  window.setTimeout(reportEmbedHeight, 200);
 }
 
 playPauseBtn.addEventListener("click", togglePlay);
@@ -162,6 +212,8 @@ document.getElementById("coverFile").addEventListener("change", async e => {
   coverPreview.src = URL.createObjectURL(file);
   coverPreview.style.display = "block";
   removeCoverBtn.style.display = "block";
+  reportEmbedHeight();
+  window.setTimeout(reportEmbedHeight, 50);
 });
 
 removeCoverBtn.addEventListener("click", () => {
@@ -172,6 +224,7 @@ removeCoverBtn.addEventListener("click", () => {
   coverPreview.src = "";
   coverPreview.style.display = "none";
   removeCoverBtn.style.display = "none";
+  reportEmbedHeight();
 });
 
 document.getElementById("saveBtn").addEventListener("click", () => {
