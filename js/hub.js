@@ -103,6 +103,21 @@
         }
     });
 
+    const params = new URLSearchParams(window.location.search);
+    const openId = params.get("open");
+
+    if (openId) {
+        const module = document.querySelector(`[data-module="${openId}"]`);
+
+        if (module) {
+            openApp(module);
+
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete("open");
+            window.history.replaceState({}, "", cleanUrl.pathname);
+        }
+    }
+
     window.addEventListener("message", (event) => {
         if (!event.data || event.data.type !== "wm-tool-resize") {
             return;
