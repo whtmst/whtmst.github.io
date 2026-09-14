@@ -231,3 +231,28 @@ button:hover {
 .footer p {
     margin: 0;
 }
+
+/* =========================================================
+   EMBED IN HUB (iframe)
+   ========================================================= */
+
+html.is-embed,
+html.is-embed body {
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  overflow: hidden;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+html.is-embed body {
+  display: block;
+}
+
+html.is-embed .container {
+  margin: 0 auto;
+  max-width: 100%;
+  box-shadow: none;
+}
