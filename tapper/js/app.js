@@ -163,7 +163,11 @@ const analysisWaveformCanvas = document.getElementById(
 
 const isEmbed = window.parent !== window;
 
-if (isEmbed) {
+if (!isEmbed) {
+    const target = new URL("/", window.location.origin);
+    target.searchParams.set("open", "tapper");
+    window.location.replace(target.toString());
+} else {
     document.documentElement.classList.add("is-embed");
 }
 
