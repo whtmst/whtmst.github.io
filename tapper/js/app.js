@@ -748,6 +748,8 @@ function openAnalysisPanel() {
         APP_WINDOW_SIZE.analysisWidth,
         APP_WINDOW_SIZE.analysisHeight,
     );
+
+    reportEmbedHeight();
 }
 
 /**
@@ -766,6 +768,8 @@ function closeAnalysisPanel() {
         APP_WINDOW_SIZE.normalWidth,
         APP_WINDOW_SIZE.normalHeight,
     );
+
+    reportEmbedHeight();
 }
 
 /**
