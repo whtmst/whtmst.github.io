@@ -86,10 +86,12 @@ label {
 }
 .input-with-btn {
     display: flex;
-    gap: 6px;
+    flex-direction: column;
+    gap: 8px;
 }
 .input-with-btn input {
-    flex: 1;
+    width: 100%;
+    flex: none;
 }
 button {
     background: #3b82f6;
@@ -107,9 +109,9 @@ button:hover {
     background: #2563eb;
 }
 .btn-inline {
-    width: auto;
+    width: 100%;
     margin-top: 0;
-    padding: 0 12px;
+    padding: 10px 12px;
     font-size: 13px;
     white-space: nowrap;
     background: #24242a;
@@ -238,21 +240,21 @@ button:hover {
 
 html.is-embed,
 html.is-embed body {
-  width: 100%;
-  min-height: 0;
-  height: auto;
-  overflow: hidden;
-  background: transparent;
-  padding: 0;
-  margin: 0;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    background: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 html.is-embed body {
-  display: block;
+    display: block;
 }
 
 html.is-embed .container {
-  margin: 0 auto;
-  max-width: 100%;
-  box-shadow: none;
+    margin: 0 auto;
+    max-width: 100%;
+    box-shadow: none;
 }
