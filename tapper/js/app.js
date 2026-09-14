@@ -158,6 +158,57 @@ const analysisWaveformCanvas = document.getElementById(
 );
 
 /* =========================================================
+   EMBED IN HUB
+   ========================================================= */
+
+const isEmbed = window.parent !== window;
+
+if (isEmbed) {
+    document.documentElement.classList.add("is-embed");
+}
+
+function reportEmbedHeight() {
+    if (!isEmbed) {
+        return;
+    }
+
+    const banner = document.getElementById("desktopDownloadBanner");
+    const appWindow = document.querySelector(".app-window");
+
+    if (!appWindow) {
+        return;
+    }
+
+    let height = appWindow.getBoundingClientRect().height;
+
+    if (banner && !banner.hidden) {
+        const bannerStyle = window.getComputedStyle(banner);
+        const marginBottom = Number.parseFloat(bannerStyle.marginBottom) || 0;
+        height += banner.getBoundingClientRect().height + marginBottom;
+    }
+
+    const panel = document.querySelector(".analysis-panel");
+
+    if (panel && appWindow.classList.contains("analysis-panel-open")) {
+        const appTop = appWindow.getBoundingClientRect().top;
+        const panelBottom = panel.getBoundingClientRect().bottom;
+        height = Math.max(height, panelBottom - appTop);
+    }
+
+    height = Math.ceil(height + 2);
+
+    window.parent.postMessage(
+        {
+            type: "wm-tool-resize",
+            height,
+        },
+        "*",
+    );
+}
+
+window.reportEmbedHeight = reportEmbedHeight;
+
+/* =========================================================
    APPLICATION MODULES
    ========================================================= */
 
@@ -345,7 +396,6 @@ async function registerGlobalTapKey(code) {
 
 const waveform = createWaveformRenderer(analysisWaveformCanvas);
 
-
 /* =========================================================
    STANDALONE MODE
    ========================================================= */
@@ -438,7 +488,10 @@ async function applyAlwaysOnTop(enabled) {
 
     if (pinButton) {
         pinButton.classList.toggle("is-active", Boolean(enabled));
-        pinButton.setAttribute("aria-pressed", Boolean(enabled) ? "true" : "false");
+        pinButton.setAttribute(
+            "aria-pressed",
+            Boolean(enabled) ? "true" : "false",
+        );
     }
 }
 
@@ -1546,5 +1599,11 @@ document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
 });
 
-
 initialize();
+
+if (isEmbed) {
+    reportEmbedHeight();
+    window.addEventListener("load", reportEmbedHeight);
+    window.setTimeout(reportEmbedHeight, 100);
+    window.setTimeout(reportEmbedHeight, 400);
+}
