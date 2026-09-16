@@ -5,6 +5,17 @@
 
         <script>
             (function () {
+                if (window.__TAURI__) {
+                    document.documentElement.classList.add("is-tauri");
+                }
+                if (window.parent !== window) {
+                    document.documentElement.classList.add("is-embed");
+                }
+            })();
+        </script>
+        
+        <script>
+            (function () {
                 if (window.parent === window) {
                     var target = new URL("/", window.location.origin);
                     target.searchParams.set("open", "tapper");
