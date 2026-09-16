@@ -25,8 +25,6 @@ import {
 
 import { TapEngine } from "./tap-engine.js";
 
-import { TrackAnalyzer } from "./analyzer.js";
-
 import { createTapUI } from "./tap-ui.js";
 
 import { createDropdownController } from "./dropdowns.js";
@@ -224,7 +222,15 @@ window.reportEmbedHeight = reportEmbedHeight;
 
 const tapEngine = new TapEngine();
 
-const trackAnalyzer = new TrackAnalyzer();
+let trackAnalyzer = null;
+
+async function getTrackAnalyzer() {
+    if (!trackAnalyzer) {
+        const module = await import("./analyzer.js");
+        trackAnalyzer = new module.TrackAnalyzer();
+    }
+    return trackAnalyzer;
+}
 
 const tapKeyController = new TapKeyController({
     control: tapKeyControl,
@@ -1285,7 +1291,8 @@ analysisRunButton.addEventListener("click", async () => {
             requestAnimationFrame(() => resolve());
         });
 
-        const result = await trackAnalyzer.analyze(selectedAudioFile, {
+        const analyzer = await getTrackAnalyzer();
+        const result = await analyzer.analyze(selectedAudioFile, {
             mode: analysisModeValueCurrent,
 
             genre: analysisGenreValueCurrent,
