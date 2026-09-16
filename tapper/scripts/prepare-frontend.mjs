@@ -6,8 +6,6 @@ const dist = join(root, "dist");
 
 const entries = [
     "index.html",
-    "manifest.webmanifest",
-    "sw.js",
     "js",
     "src",
     "assets",
