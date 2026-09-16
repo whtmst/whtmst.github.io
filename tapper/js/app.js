@@ -161,11 +161,11 @@ const analysisWaveformCanvas = document.getElementById(
 
 const isEmbed = window.parent !== window;
 
-if (!isEmbed) {
+if (!isEmbed && !window.__TAURI__) {
     const target = new URL("/", window.location.origin);
     target.searchParams.set("open", "tapper");
     window.location.replace(target.toString());
-} else {
+} else if (isEmbed) {
     document.documentElement.classList.add("is-embed");
 }
 
