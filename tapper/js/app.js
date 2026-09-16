@@ -1576,8 +1576,7 @@ function initialize() {
 
     if (isTauriApp()) {
         globalTapKeyController.initialize();
-        // TEMP: test startup without global shortcut
-        // void registerGlobalTapKey(settings.get("globalTapKey"));
+        void registerGlobalTapKey(settings.get("globalTapKey"));
     }
 
     languageUI.applyLanguage(languageUI.getCurrentLanguage());
