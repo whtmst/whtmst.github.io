@@ -1,0 +1,73 @@
+name: "WM Tapper: Build for macOS"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag (example: v1.0.2) — use a NEW tag, or same tag to attach to existing release"
+        required: true
+        default: "v1.0.2"
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: tapper
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Generate Tauri icons
+        run: npx tauri icon src-tauri/icons/icon.png
+
+      - name: Build Tauri (macOS dmg)
+        run: npm run tauri build -- --bundles dmg
+
+      - name: Rename installer
+        shell: bash
+        run: |
+          set -e
+          DMG=$(ls src-tauri/target/release/bundle/dmg/*.dmg | head -n 1)
+          if [ -z "$DMG" ]; then
+            echo "DMG not found"
+            ls -la src-tauri/target/release/bundle/dmg || true
+            exit 1
+          fi
+          cp "$DMG" src-tauri/target/release/bundle/dmg/wm-tapper-macos-setup.dmg
+          echo "Installer ready: $DMG -> wm-tapper-macos-setup.dmg"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wm-tapper-macos
+          path: tapper/src-tauri/target/release/bundle/dmg/wm-tapper-macos-setup.dmg
+          if-no-files-found: error
+
+      - name: Create / update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.version }}
+          name: WM Tapper ${{ inputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: tapper/src-tauri/target/release/bundle/dmg/wm-tapper-macos-setup.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
