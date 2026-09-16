@@ -10,13 +10,7 @@
                 }
                 if (window.parent !== window) {
                     document.documentElement.classList.add("is-embed");
-                }
-            })();
-        </script>
-        
-        <script>
-            (function () {
-                if (window.parent === window) {
+                } else if (!window.__TAURI__) {
                     var target = new URL("/", window.location.origin);
                     target.searchParams.set("open", "tapper");
                     window.location.replace(target.toString());
