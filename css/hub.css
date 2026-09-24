@@ -425,15 +425,19 @@ button {
     display: block;
     position: relative;
     top: -1px;
-    opacity: 0.9;
+    background-color: currentColor;
+    -webkit-mask-image: var(--icon);
+    mask-image: var(--icon);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
 }
 
 .rack__link:hover {
     color: #ecdbba;
-}
-
-.rack__link:hover .rack__link-icon {
-    opacity: 1;
 }
 
 .rack__status {
