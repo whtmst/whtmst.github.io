@@ -229,6 +229,21 @@ button {
     background: #404040;
 }
 
+.module__cover {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    object-fit: cover;
+    border: 1px solid #404040;
+    background: #151719;
+    display: block;
+}
+
+.module--release .module__row {
+    min-height: 58px;
+}
+
 .module__id {
     width: 140px;
     flex-shrink: 0;
@@ -494,6 +509,11 @@ button {
         width: 8px;
         height: 8px;
         margin-top: 0;
+    }
+
+    .module__cover {
+        width: 32px;
+        height: 32px;
     }
 
     .module__id {
