@@ -410,7 +410,7 @@ button {
 .rack__link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
     color: #9ca3af;
     font-size: 11px;
     font-weight: 400;
@@ -423,6 +423,8 @@ button {
     height: 12px;
     flex-shrink: 0;
     display: block;
+    position: relative;
+    top: -1px;
     opacity: 0.9;
 }
 
