@@ -3,6 +3,27 @@
    ========================================================= */
 
 (function () {
+
+    /* ---- latest release from latest-release.js ---- */
+    if (typeof LATEST_RELEASE === "object" && LATEST_RELEASE) {
+        const cover = document.getElementById("releaseCover");
+        const title = document.getElementById("releaseTitle");
+        const listen = document.getElementById("releaseListen");
+
+        if (cover && LATEST_RELEASE.image) {
+            cover.src = LATEST_RELEASE.image;
+            cover.alt = LATEST_RELEASE.title || "Latest release";
+        }
+
+        if (title && LATEST_RELEASE.title) {
+            title.textContent = LATEST_RELEASE.title;
+        }
+
+        if (listen && LATEST_RELEASE.url) {
+            listen.href = LATEST_RELEASE.url;
+        }
+    }
+   
     const modules = document.querySelectorAll("[data-module]");
 
     function closePanels(module) {
