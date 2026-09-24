@@ -547,7 +547,7 @@ button {
     }
 
     .rack__links {
-        gap: 16px;
+        gap: 10px;
     }
 
     .rack__link,
