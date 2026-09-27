@@ -51,7 +51,7 @@ const modeButtons = document.querySelectorAll(".calc__mode");
 function clampBpm(value) {
     const n = Number(value);
     if (!Number.isFinite(n)) {
-        return 120;
+        return 125;
     }
     return Math.min(400, Math.max(20, n));
 }
