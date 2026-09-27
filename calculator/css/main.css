@@ -10,6 +10,15 @@
     --color-accent: #c84b31;
 }
 
+@font-face {
+    font-family: "Finlandica";
+    src: url("../../assets/fonts/Finlandica-VariableFont_wght.ttf")
+        format("truetype");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
 *,
 *::before,
 *::after {
