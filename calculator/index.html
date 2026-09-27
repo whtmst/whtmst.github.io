@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>WM Calculator</title>
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+        <div class="calc">
+            <div class="calc__bpm">
+                <label class="calc__label" for="bpmInput">BPM</label>
+                <div class="calc__bpm-controls">
+                    <button class="calc__step" id="bpmDown" type="button" aria-label="Decrease BPM">
+                        −
+                    </button>
+                    <input
+                        class="calc__input"
+                        id="bpmInput"
+                        type="number"
+                        inputmode="decimal"
+                        min="20"
+                        max="400"
+                        step="1"
+                        value="120"
+                    />
+                    <button class="calc__step" id="bpmUp" type="button" aria-label="Increase BPM">
+                        +
+                    </button>
+                </div>
+            </div>
+
+            <div class="calc__modes" role="tablist">
+                <button class="calc__mode is-active" type="button" data-mode="straight">
+                    Straight
+                </button>
+                <button class="calc__mode" type="button" data-mode="triplet">
+                    Triplet
+                </button>
+                <button class="calc__mode" type="button" data-mode="dotted">
+                    Dotted
+                </button>
+            </div>
+
+            <div class="calc__table-wrap">
+                <table class="calc__table">
+                    <thead>
+                        <tr>
+                            <th>Note</th>
+                            <th>ms</th>
+                            <th>Hz</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calcBody"></tbody>
+                </table>
+            </div>
+
+            <p class="calc__hint">Click a value to copy</p>
+        </div>
+
+        <script src="js/app.js"></script>
+    </body>
+</html>
