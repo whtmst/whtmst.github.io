@@ -320,6 +320,11 @@ button {
     color: #9ca3af;
 }
 
+.local-processing-accent {
+  color: #FF5533;
+  font-weight: bold;
+}
+
 /* =========================================================
    MODULE PANELS (open / download)
    ========================================================= */
