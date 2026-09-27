@@ -320,9 +320,10 @@ button {
     color: #9ca3af;
 }
 
-.local-processing-accent {
-  color: #FF5533;
-  font-weight: bold;
+.module__local-processing-accent {
+    color: #7aa874;
+    font-weight: 500;
+    margin-left: 4px;
 }
 
 /* =========================================================
