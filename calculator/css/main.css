@@ -86,11 +86,14 @@ button {
     color: var(--color-accent);
     font-size: 16px;
     line-height: 1;
-    transition: color 120ms ease;
+    transition:
+        color 120ms ease,
+        border-color 120ms ease;
 }
 
 .calc__step:hover {
     color: var(--color-text-primary);
+    border-color: var(--color-accent);
 }
 
 .calc__input {
@@ -138,15 +141,19 @@ button {
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    transition: color 120ms ease;
+    transition:
+        color 120ms ease,
+        border-color 120ms ease;
 }
 
 .calc__mode:hover {
     color: var(--color-text-primary);
+    border-color: var(--color-accent);
 }
 
 .calc__mode.is-active {
     color: var(--color-text-primary);
+    border-color: var(--color-accent);
 }
 
 .calc__table-wrap {
