@@ -53,7 +53,7 @@ function clampBpm(value) {
     if (!Number.isFinite(n)) {
         return 125;
     }
-    return Math.min(400, Math.max(20, n));
+    return Math.min(1000, Math.max(20, n));
 }
 
 function modeFactor(currentMode) {
@@ -91,7 +91,9 @@ function computeRows(bpm) {
     const factor = modeFactor(mode);
 
     return NOTE_DEFS.map((note) => {
-        const ms = quarterMs * note.mult * factor;
+        // 1 bar is always 4 straight quarter notes
+        const appliedFactor = note.id === "bar" ? 1 : factor;
+        const ms = quarterMs * note.mult * appliedFactor;
         const hz = 1000 / ms;
         let label = note.label;
         if (mode === "triplet" && note.id !== "bar") {
@@ -110,10 +112,12 @@ function computeRows(bpm) {
 }
 
 function render() {
-    const bpm = clampBpm(bpmInput.value);
-    if (String(bpm) !== String(bpmInput.value) && bpmInput.value !== "") {
-        bpmInput.value = String(bpm);
-    }
+    const raw = String(bpmInput.value).trim();
+    // while typing / empty - don't force-clamp the field
+    const bpm =
+        raw === "" || !Number.isFinite(Number(raw))
+            ? 125
+            : clampBpm(raw);
 
     const rows = computeRows(bpm);
     calcBody.innerHTML = "";
@@ -174,7 +178,22 @@ bpmInput.addEventListener("input", () => {
 });
 
 bpmInput.addEventListener("change", () => {
-    bpmInput.value = String(clampBpm(bpmInput.value));
+    const raw = String(bpmInput.value).trim();
+    if (raw === "" || !Number.isFinite(Number(raw))) {
+        bpmInput.value = "125";
+    } else {
+        bpmInput.value = String(clampBpm(raw));
+    }
+    render();
+});
+
+bpmInput.addEventListener("blur", () => {
+    const raw = String(bpmInput.value).trim();
+    if (raw === "" || !Number.isFinite(Number(raw))) {
+        bpmInput.value = "125";
+    } else {
+        bpmInput.value = String(clampBpm(raw));
+    }
     render();
 });
 
