@@ -7,16 +7,16 @@
    ========================================================= */
 
 :root {
-    --color-bg-page: #191919;      /* body background */
-    --color-bg-panel: #252525;     /* rack / module / bio background */
-    --color-bg-frame: #151719;     /* iframe, cover background */
-    --color-bg-surface: #404040;   /* header/footer/buttons borders background */
+    --color-bg-page: #191919;        /* body background */
+    --color-bg-panel: #252525;       /* rack / module / bio background */
+    --color-bg-frame: #151719;       /* iframe wrapper / cover art background */
+    --color-bg-surface: #404040;     /* header/footer/button background, also the border color everywhere */
 
-    --color-text-primary: #ecdbba; /* main text color */
-    --color-text-muted: #9ca3af;   /* secondary color */
-    --color-text-on-accent: #ffffff; /* DONATE text color */
+    --color-text-primary: #ecdbba;   /* primary text / hover accents */
+    --color-text-muted: #9ca3af;     /* secondary / muted text */
+    --color-text-on-accent: #ffffff; /* text on the DONATE button */
 
-    --color-accent: #c84b31;       /* brand color (LED, DONATE, buttons) */
+    --color-accent: #c84b31;         /* brand accent (LED, DONATE, buttons) */
 }
 
 @font-face {
