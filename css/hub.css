@@ -314,15 +314,19 @@ button {
     line-height: 1;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    transition: color 120ms ease;
+    transition:
+        color 120ms ease,
+        border-color 120ms ease;
 }
 
 .module__btn:hover {
     color: var(--color-text-primary);
+    border-color: var(--color-accent);
 }
 
 .module__btn.is-active {
     color: var(--color-text-primary);
+    border-color: var(--color-accent);
 }
 
 .module__btn--disabled,
@@ -406,11 +410,14 @@ button {
     font-weight: 700;
     line-height: 1;
     text-transform: uppercase;
-    transition: color 120ms ease;
+    transition:
+        color 120ms ease,
+        border-color 120ms ease;
 }
 
 .module__dl-btn:hover {
     color: var(--color-text-primary);
+    border-color: var(--color-accent);
 }
 
 .module__dl-btn--soon {
