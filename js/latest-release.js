@@ -4,8 +4,8 @@
    ========================================================= */
 
 const LATEST_RELEASE = {
-    url: "https://band.link/baya",
-    title: "Wht Mst - Baya",
+    url: "https://band.link/baddaman",
+    title: "Wht Mst - Badman (Radio & Extended Mix)",
     image:
-        "https://music-bandlink.s3.yandex.net/img/bandlinks/af9e7bb2-aba6-4970-b2da-fa8453368fa2_1120_1120.jpeg",
+        "https://music-bandlink.s3.yandex.net/img/bandlinks/e6ccc31a-23b6-466b-9839-b4bf3a591ff5_1120_1120.jpeg",
 };
