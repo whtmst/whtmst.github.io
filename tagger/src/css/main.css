@@ -134,6 +134,7 @@ button:hover {
 }
 .btn-danger {
     background: #dc2626;
+	color: #ecdbba;
     margin-top: 8px;
     font-size: 13px;
     padding: 8px;
@@ -141,6 +142,7 @@ button:hover {
 }
 .btn-danger:hover {
     background: #b91c1c;
+	color: #ecdbba;
 }
 #coverPreview {
     max-width: 120px;
