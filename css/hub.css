@@ -37,6 +37,8 @@
 
 html {
     -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 body {
