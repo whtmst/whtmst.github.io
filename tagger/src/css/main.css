@@ -52,7 +52,7 @@ h2 {
     font-size: 14px;
 }
 .drop-zone.hover {
-    border-color: #3b82f6;
+    border-color: #c84b31;
     background-color: #1a1a1e;
     color: #fff;
 }
@@ -103,6 +103,7 @@ label {
 }
 button {
     background: #c84b31;
+    color: #ecdbba;
     color: white;
     border: none;
     padding: 12px;
@@ -115,6 +116,7 @@ button {
 }
 button:hover {
     background: #ecdbba;
+	color: #c84b31;
 }
 .btn-inline {
     width: 100%;
@@ -122,12 +124,13 @@ button:hover {
     padding: 10px 12px;
     font-size: 13px;
     white-space: nowrap;
-    background: #1f2020;
+    background: #c84b31;
+    color: #ecdbba;
     border: 1px solid #33333d;
-    color: #c84b31;
 }
 .btn-inline:hover {
-    background: #33333d;
+    background: #ecdbba;
+	color: #c84b31;
 }
 .btn-danger {
     background: #dc2626;
@@ -176,11 +179,13 @@ button:hover {
     padding: 0 !important;
     font-size: 13px;
     background: #c84b31;
+	color: #ecdbba;
     flex-shrink: 0;
     border-radius: 6px;
 }
 .play-btn:hover {
     background: #ecdbba;
+	color: #c84b31;
 }
 .waveform-wrapper {
     flex: 1;
@@ -218,14 +223,14 @@ button:hover {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: #c84b31;
     cursor: pointer;
 }
 .volume-slider::-moz-range-thumb {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: #c84b31;
     cursor: pointer;
     border: none;
 }
