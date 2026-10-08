@@ -106,9 +106,9 @@ export function renderWaveform(progress = 0) {
 
     const currentPos = i / totalBars;
     if (currentPos <= progress) {
-      ctx.fillStyle = "#3b82f6";
+      ctx.fillStyle = "#c84b31";
     } else {
-      ctx.fillStyle = "#3a3a42";
+      ctx.fillStyle = "#c84b31";
     }
 
     ctx.fillRect(x, y, barWidth, barHeight);
