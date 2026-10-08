@@ -584,6 +584,18 @@ button {
         padding: 16px;
     }
 
+    .rack-bio__label {
+       font-size: 12px;
+    }
+
+    .rack-bio__rev {
+       font-size: 9px;
+    }
+   
+    .rack-bio__text {
+       font-size: 11px;
+    }
+
     .rack-bio__meta {
         width: 100%;
     }
@@ -603,6 +615,10 @@ button {
     .module__connect-links {
         width: 100%;
         justify-content: center;
+    }
+
+    .module__connect-link {
+         font-size: 11px;
     }
 
     .module__row {
