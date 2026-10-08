@@ -42,7 +42,7 @@ h2 {
     padding: 30px;
     border-radius: 8px;
     text-align: center;
-    background: #24242a;
+    background: #1f2020;
     transition:
         border-color 0.3s,
         background-color 0.3s,
@@ -73,7 +73,7 @@ input[type="file"].field-input {
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #33333d;
-    background: #24242a;
+    background: #1f2020;
     color: #fff;
     font-size: 14px;
 }
@@ -102,7 +102,7 @@ label {
     flex: none;
 }
 button {
-    background: #3b82f6;
+    background: #c84b31;
     color: white;
     border: none;
     padding: 12px;
@@ -114,7 +114,7 @@ button {
     margin-top: 10px;
 }
 button:hover {
-    background: #2563eb;
+    background: #ecdbba;
 }
 .btn-inline {
     width: 100%;
@@ -122,9 +122,9 @@ button:hover {
     padding: 10px 12px;
     font-size: 13px;
     white-space: nowrap;
-    background: #24242a;
+    background: #1f2020;
     border: 1px solid #33333d;
-    color: #3b82f6;
+    color: #c84b31;
 }
 .btn-inline:hover {
     background: #33333d;
@@ -160,7 +160,7 @@ button:hover {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #141417;
+    background: #1f2020;
     padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid #2e2e35;
@@ -175,12 +175,12 @@ button:hover {
     margin-top: 0 !important;
     padding: 0 !important;
     font-size: 13px;
-    background: #3b82f6;
+    background: #c84b31;
     flex-shrink: 0;
     border-radius: 6px;
 }
 .play-btn:hover {
-    background: #2563eb;
+    background: #ecdbba;
 }
 .waveform-wrapper {
     flex: 1;
