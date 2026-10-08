@@ -108,7 +108,7 @@ export function renderWaveform(progress = 0) {
     if (currentPos <= progress) {
       ctx.fillStyle = "#c84b31";
     } else {
-      ctx.fillStyle = "#c84b31";
+      ctx.fillStyle = "#9ca3af";
     }
 
     ctx.fillRect(x, y, barWidth, barHeight);
