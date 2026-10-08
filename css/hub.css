@@ -118,6 +118,7 @@ button {
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: 0.02em;
+	transform: translateY(1px);
     white-space: nowrap;
 }
 
