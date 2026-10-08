@@ -33,19 +33,26 @@ body {
     color: var(--color-text-primary);
     font-family: "Finlandica", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 button,
-input {
+input,
+textarea {
     font: inherit;
     color: inherit;
 }
-
 button {
     appearance: none;
     border: 0;
     background: none;
     cursor: pointer;
+}
+input,
+textarea {
+    -webkit-user-select: text;
+    user-select: text;
 }
 
 .calc {
