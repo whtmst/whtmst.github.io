@@ -114,10 +114,17 @@ button {
     font-size: 15px;
     margin-top: 10px;
 }
+
 button:hover {
     background: #ecdbba;
 	color: #c84b31;
 }
+
+#saveBtn {
+    background: #ecdbba;
+	color: #c84b31;
+}
+
 .btn-inline {
     width: 100%;
     margin-top: 0;
