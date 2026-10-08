@@ -212,6 +212,47 @@ button {
     line-height: 1.5;
 }
 
+
+/* =========================================================
+   CONNECT
+   ========================================================= */
+
+.module__row--connect {
+    gap: 16px;
+}
+
+.module__connect-links {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 10px;
+}
+
+.module__connect-link {
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transition: color 120ms ease;
+}
+
+.module__connect-link:hover {
+    color: var(--color-text-primary);
+}
+
+.module__connect-sep {
+    color: var(--color-bg-surface);
+    font-size: 12px;
+    line-height: 1;
+    user-select: none;
+}
+
+
 /* =========================================================
    MODULE
    ========================================================= */
