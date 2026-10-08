@@ -249,6 +249,7 @@ button {
     color: var(--color-bg-surface);
     font-size: 12px;
     line-height: 1;
+	transform: translateY(-2px);
     user-select: none;
 }
 
